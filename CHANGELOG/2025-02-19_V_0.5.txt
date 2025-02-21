@@ -1,0 +1,6 @@
+2025-02-19 Version 0.5
+All 3 main classes: `dmGEL.gelData`, `dmGEL.gelui` and `dmGEL.roiPolygon`, are mostly implemented, 
+and interaction between them is established.
+This is first public release.
+The project is still under active development. 
+This release is for evaluation purposes and should not be used for any tasks with a high level of responsibility.

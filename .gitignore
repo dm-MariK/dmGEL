@@ -1,0 +1,11 @@
+# Exclude matlab auto-save files
+*.asv
+
+# Exclude example gel images, my workflow drafts / notes and Scren-sots.
+images/
+NOTES/
+SCREENSHOTS/
+
+# Temporary exclude notes.md - will add it later to other project / location.
+notes.md
+
