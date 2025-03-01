@@ -1,0 +1,20 @@
+2025-03-02 Version 0.6
+
+dmGEL.gelData Class
+ * gelData.m file
+  - added setModified() method
+  - 'IsSaved' property - add attribute 'SetAccess = protected'
+  - all non-Constant and non-Dependent properties - add attribute 'AbortSet = true' to prevent calling set-methods if properties' values are not actually changes
+  - added set methods, that call setModified() method, for all properties except Dependent, Constant and 'Hgelui'.
+  - 'BGCorrectedImg' is made 'Dependent', added corresponding get-method
+  - added fixHroiArr() method to remove deleted polygons-objects from 'HroiArr'
+  - added Delete method - for debug propose only: it only displays msg that it is fired
+  
+dmGEL.roiPolygon Class -- roiPolygon.m file
+  - added method newPosCback() - ROI object change Position Callback that fires when any of a polygon's vertex changes its position or is removed.
+  - added Delete method that calls fixHroiArr() method of the related gelData object
+  
+dmGEL.gelui Class
+ * gelui.m file
+  - all hg-handle properties now have attribute 'Transient'
+  - added Figure's Close Request Function

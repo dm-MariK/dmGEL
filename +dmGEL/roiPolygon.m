@@ -96,9 +96,10 @@ classdef roiPolygon < impoly
                 
                 % Add new-position callback to the ROI object.
                 % (Function that fires each time the ROI object changes its position.) 
-                newPosCback_1 = @(~) disp('Ololo !!! Position has been modified!');
-                newPosCback_1_id = obj.addNewPositionCallback(newPosCback_1);
-                
+                newPosCback_1 = @(~) obj.newPosCback;
+                %newPosCback_1_id = obj.addNewPositionCallback(newPosCback_1);
+                obj.addNewPositionCallback(newPosCback_1);
+
                 % Adjust context menus of the ROI object.
                 obj.cofigCmenus;
             end
@@ -273,11 +274,32 @@ classdef roiPolygon < impoly
             end
         end %getSavedData()
         
-
         %% ROI object change Position Callback
-        % ...
+        function newPosCback(obj)
+            disp('roiPolygon : Vertex position has been modified');
+            obj.hGELUI.GelDataObj.setModified;
+        end
         
-        
+        %% Delete method
+        function delete(obj)
+            disp('  --> roiPolygon : Delete method');
+            if ~isvalid(obj.hGELUI)
+                delete@impoly(obj);
+                return
+            end
+            
+            % Obtain handle to the related gelData object.
+            gelObj = obj.hGELUI.GelDataObj;
+            % Call the superclass delete method.
+            delete@impoly(obj);
+
+            % Fix HroiArr of the gelData object - remove handle to the
+            % deleted polygon from the array.
+            if isvalid(gelObj)
+                gelObj.fixHroiArr;
+            end
+        end
+
         % -----------------------------------------------------------------
         %% Method to access the api - protected property of superclass imroi
         function api = getAPI(obj)

@@ -6,7 +6,7 @@
 %
 classdef gelui < matlab.mixin.SetGet
     %% Properties definition 
-    properties
+    properties (Transient)
         hFig;
         
         %% Top (Central) uiPanel (uipanel) with its 'Children'
@@ -73,7 +73,9 @@ classdef gelui < matlab.mixin.SetGet
         hNewSelectionItem;
         % ^ this is due to it is not a good idea to use a main menu as a Button
         % =================================================
+    end % properties (Transient)
 
+    properties
         %% Workflow variables
         % Whether to collect acquired gel intensity data to a file
         % and the file to collect the data to.
@@ -291,7 +293,7 @@ classdef gelui < matlab.mixin.SetGet
             obj.hFileExit = uimenu(obj.hFileMenu, ...
                 'Text', 'Exit', ... %'Accelerator', <- Add this functionality later !!!
                 'Separator', 'on', ...
-                'MenuSelectedFcn', @(sec, events) disp('File -> Exit') ...
+                'MenuSelectedFcn', @obj.figCloseRequestFcn ...
                 );
 
             %% Add 'View' main menu with its Items
@@ -491,16 +493,19 @@ classdef gelui < matlab.mixin.SetGet
                 % call gelData Class constructor with this obj argument
                 obj.GelDataObj = dmGEL.gelData(obj);
             end
+            
+            % Set Figure's Close Request Function
+            set(obj.hFig, 'CloseRequestFcn', @obj.figCloseRequestFcn);
 
             % setappdata(h,'API',api); % <-- Store the handles to the fig
             % app data ...
 
         end % Class Constructor
         % ================================================================
-        
-        
+       
         %% Delete method
         function delete(obj)
+            disp('+ gelui : Delete method');
             % Delete the Figure if it is NOT 'BeingDeleted' yet
             if strcmpi(get(obj.hFig, 'BeingDeleted'), 'off')
                 delete(obj.hFig);
@@ -513,6 +518,7 @@ classdef gelui < matlab.mixin.SetGet
         %% The Figure's 'DeleteFcn'
         % function methodName(obj,src,eventData)
         function figDeleteFcn(obj, ~, ~)
+            disp(' ++ gelui : figDeleteFcn');
             delete(obj);
         end % figDeleteFcn()
         
@@ -521,9 +527,14 @@ classdef gelui < matlab.mixin.SetGet
             obj.updatePanelsPosition;
         end % figResizeFcn()
         
-        
-        % ================================================================
-        
+        %% Figure's Close Request Function ('CloseRequestFcn')
+        function figCloseRequestFcn(obj, ~, ~)
+            disp('File -> Exit || Close the Window');
+            doProceed = obj.checkSaveSession;
+            if doProceed
+                delete(obj.hFig);
+            end
+        end % figCloseRequestFcn()
 
     end %methods
 

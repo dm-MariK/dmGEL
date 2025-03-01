@@ -6,22 +6,28 @@
 %
 classdef gelData < handle
     %% Properties definition
-    properties
+    properties (SetAccess = protected, AbortSet = true)
+        % Session state: whether the obj's current state is saved to file
+        % (new session is always considered to be saved - nothing to save)
+        IsSaved = true;
+    end % properties (SetAccess = protected, AbortSet = true)
+
+    properties (Dependent, SetAccess = private)
+        BGCorrectedImg;
+    end % properties (Dependent, SetAccess = private)
+
+    properties (AbortSet = true)
         OriginalImg;
         OriginalImgFilePath = '< No Data Loaded jet >';
         GrayScaledImg;
         FilteredImg;
         ImgBackGround;
-        BGCorrectedImg;
+        %BGCorrectedImg;
 
         % Handle to gelui obj containing axes HG-obj to plot images to
         Hgelui;
         % Array of roiPolygon objecs: selections associated with this Gel
         HroiArr = dmGEL.roiPolygon.empty;
-
-        % Session state: whether the obj's current state is saved to file
-        % (new session is always considered to be saved - nothing to save)
-        IsSaved = true;
 
         % Session name. 1)to generate filename to save session to;
         % 2) to use to name gelui window.
@@ -79,6 +85,7 @@ classdef gelData < handle
         %   if 'Hgelui' is not passed.
         % * -- Saves handle to THIS obj to the figure's "setappdata()" ---> gelui 
         function obj = gelData(h_gelui)
+            disp('gelDATA : Class Constructor is called');
             obj.FiltFcn = dmGEL.gelData.DefaultFiltFcn;
             obj.FiltFcnArgs = dmGEL.gelData.DefaultFiltFcnArgs;
             obj.BGcalcFcn = dmGEL.gelData.DefaultBGcalcFcn;
@@ -92,6 +99,9 @@ classdef gelData < handle
                 hUI = dmGEL.gelui(obj);
                 obj.Hgelui = hUI;
             end
+
+            % New session is always considered to be saved - nothing to save
+            obj.IsSaved = true;
         end % Class Constructor
 
         %% Import an Image from file or from workspace variable.
@@ -105,7 +115,7 @@ classdef gelData < handle
             % clear previous calculations
             obj.FilteredImg = [];
             obj.ImgBackGround = [];
-            obj.BGCorrectedImg = [];
+            %obj.BGCorrectedImg = [];
             % delete all HroiArr roiPolygon objecs -- better ASK whether to
             % do this !!!
         end %importImg
@@ -136,15 +146,9 @@ classdef gelData < handle
             % Consider to add set() method. Do NOT set obj.FilteredImg if
             % isequal(J, obj.FilteredImg)
             % ***
-            if preserve_bg
-                % reuse existing BackGround (if exists)
-                if ~isempty(obj.ImgBackGround)
-                    obj.BGCorrectedImg = J - obj.ImgBackGround;
-                end
-            else
-                % remove existing BackGround and result of it subtraction
+            if ~preserve_bg
+                % remove existing BackGround
                 obj.ImgBackGround = [];
-                obj.BGCorrectedImg = [];
             end
         end %filterImg
 
@@ -158,9 +162,9 @@ classdef gelData < handle
             I = obj.FilteredImg;
             % BG = BGcalcFcn(I, roi_pixel_pos, BGcalcFcnArgs{:});
             BG = fcn(I, roi_pixel_pos, args{:});
-            J = I - BG;
+            %J = I - BG;
             obj.ImgBackGround = BG;
-            obj.BGCorrectedImg = J;
+            %obj.BGCorrectedImg = J;
             % NOTIFY about the change !!!
         end %bgCorrect
 
@@ -184,10 +188,92 @@ classdef gelData < handle
             obj.GrayScaledImg = [];
             obj.FilteredImg = [];
             obj.ImgBackGround = [];
-            obj.BGCorrectedImg = [];
+            %obj.BGCorrectedImg = [];
+        end %clearImages
+        
+        % ----------------------------------------------------------------
+        %% Method to remove deleted polygons-objects from HroiArr
+        function fixHroiArr(obj)
+            validPolyIdx = isvalid(obj.HroiArr);
+            obj.HroiArr = obj.HroiArr(validPolyIdx);
         end
 
+        % ----------------------------------------------------------------
+        %% Method to mark the session as modified
+        function setModified(obj)
+            obj.IsSaved = false;
+            disp('gelDATA : setModified() is called');
+        end
 
+        % Method to *force* mark the session as saved - 4 debug only !!!
+        function setSaved(obj)
+            obj.IsSaved = true;
+        end
+        % ----------------------------------------------------------------
+
+        %% BGCorrectedImg get-method
+        function val = get.BGCorrectedImg(obj)
+            if isempty(obj.ImgBackGround)
+                val = [];
+            else
+                val = obj.FilteredImg - obj.ImgBackGround;
+            end
+        end
+
+        %% Properties set-methods
+        function set.OriginalImg(obj, val)
+            obj.OriginalImg = val; 
+            obj.setModified;
+        end
+        function set.OriginalImgFilePath(obj, val)
+            obj.OriginalImgFilePath = val; 
+            obj.setModified;
+        end
+        function set.GrayScaledImg(obj, val) 
+            obj.GrayScaledImg = val; 
+            obj.setModified;
+        end
+        function set.FilteredImg(obj, val) 
+            obj.FilteredImg = val; 
+            obj.setModified;
+        end
+        function set.ImgBackGround(obj, val) 
+            obj.ImgBackGround = val; 
+            obj.setModified;
+        end
+        function set.HroiArr(obj, val)
+            obj.HroiArr = val; 
+            obj.setModified;
+        end
+        function set.SessionName(obj, val) 
+            obj.SessionName = val; 
+            obj.setModified;
+        end
+        function set.FiltFcn(obj, val) 
+            obj.FiltFcn = val; 
+            obj.setModified;
+        end
+        function set.FiltFcnArgs(obj, val) 
+            obj.FiltFcnArgs = val; 
+            obj.setModified;
+        end
+        function set.BGcalcFcn(obj, val) 
+            obj.BGcalcFcn = val; 
+            obj.setModified;
+        end
+        function set.BGcalcFcnArgs(obj, val) 
+            obj.BGcalcFcnArgs = val; 
+            obj.setModified;
+        end
+        % ----------------------------------------------------------------
+
+        %% Delete method
+        % now - for debug propose only
+        % NOTE! This method does NOT call roiPolygon : Delete method for
+        % any of 'HroiArr' polygons.
+        function delete(obj)
+            disp('* gelDATA : Delete method');
+        end
     end %methods
 
 end % classdef
