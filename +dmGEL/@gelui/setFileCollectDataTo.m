@@ -14,7 +14,7 @@ disp('File -> Collect data to file ...');
 
 if strcmpi(get(src, 'Checked'), 'on')
     set(src, 'Checked', 'off');
-    obj.CollectDataToFile = false;
+    obj.GelDataObj.CollectDataToFile = false;
     return
 else
     filter = {'*.DAT;*.dat', 'DAT-files (*.DAT,*.dat)'; ...
@@ -22,14 +22,14 @@ else
         '*.TXT;*.txt', 'Text files (*.TXT,*.txt)'; ...
         '*.*','All Files (*.*)'};
     header = 'Select a file (DATA WILL ALWAYS BE APPENDED TO THE END OF THE FILE!)';
-    [fname, fpath] = uiputfile(filter, header, obj.FileToCollectDataTo);
+    [fname, fpath] = uiputfile(filter, header, obj.GelDataObj.FileToCollectDataTo);
     if isequal(fname, 0)
         set(src, 'Checked', 'off');
-        obj.CollectDataToFile = false;
+        obj.GelDataObj.CollectDataToFile = false;
     else
         set(src, 'Checked', 'on');
-        obj.CollectDataToFile = true;
-        obj.FileToCollectDataTo = fullfile(fpath, fname);
+        obj.GelDataObj.CollectDataToFile = true;
+        obj.GelDataObj.FileToCollectDataTo = fullfile(fpath, fname);
     end
 end
 end

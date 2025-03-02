@@ -52,7 +52,12 @@ classdef gelData < handle
         % Note that additional arguments must be set as a cell array!
         BGcalcFcn;
         BGcalcFcnArgs;
+        % ---------------------------------------------------------------
 
+        % Whether to collect acquired gel intensity data to a file
+        % and the file to collect the data to.
+        CollectDataToFile = false;
+        FileToCollectDataTo = '';
     end %properties
 
     properties (Constant)
@@ -263,6 +268,14 @@ classdef gelData < handle
         end
         function set.BGcalcFcnArgs(obj, val) 
             obj.BGcalcFcnArgs = val; 
+            obj.setModified;
+        end
+        function set.CollectDataToFile(obj, val)
+            obj.CollectDataToFile = val;
+            obj.setModified;
+        end
+        function set.FileToCollectDataTo(obj, val)
+            obj.FileToCollectDataTo = val;
             obj.setModified;
         end
         % ----------------------------------------------------------------

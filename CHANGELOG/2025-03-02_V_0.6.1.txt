@@ -1,0 +1,16 @@
+2025-03-02 Version 0.6.1
+
+Properties:
+  'CollectDataToFile'
+  'FileToCollectDataTo'
+are moved from dmGEL.gelui to dmGEL.gelData Class. 
+Files: 
+  +dmGEL/@gelui/gelui.m  
+  +dmGEL/@gelData/gelData.m
+This required to modify methods of dmGEL.gelui Class:
+  clearAll() 
+    File: +dmGEL/@gelui/clearAll.m
+  setFileCollectDataTo()
+    File: +dmGEL/@gelui/setFileCollectDataTo.m
+    
+  

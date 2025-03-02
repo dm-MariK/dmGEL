@@ -77,10 +77,11 @@ classdef gelui < matlab.mixin.SetGet
 
     properties
         %% Workflow variables
-        % Whether to collect acquired gel intensity data to a file
-        % and the file to collect the data to.
-        CollectDataToFile = false;
-        FileToCollectDataTo = '';
+        % % Whether to collect acquired gel intensity data to a file
+        % % and the file to collect the data to.
+        %CollectDataToFile = false;
+        %FileToCollectDataTo = '';
+        % ^<--------------------------------- moved to dmGEL.gelData Class
 
         % Whether to Display Calculation Details: 
         DispSelectionDetails = false; % SelectionDetails
