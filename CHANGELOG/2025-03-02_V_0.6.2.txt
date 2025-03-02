@@ -1,0 +1,13 @@
+2025-03-02 Version 0.6.2
+
+markROIobj() method is added to dmGEL.gelData Class to mark a given dmGEL.roiPolygon object as 'selected' if its 'Get Intensity' call finished successfully.
+
+dmGEL.gelui -> getIntensity() method (of dmGEL.gelui Class) now returns success-flag.
+dmGEL.gelui -> getIntensity() added ability to collect Intensity data to a specified file ('FileToCollectDataTo' of dmGEL.gelData Class).
+
+dmGEL.roiPolygon -> getIntensity() method now verifies its results and calls markROIobj() method of dmGEL.gelData Class (see above)
+
+Files:
+  +dmGEL/@gelData/markROIobj.m
+  +dmGEL/@gelui/getIntensity.m
+  +dmGEL/roiPolygon.m

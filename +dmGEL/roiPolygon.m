@@ -226,7 +226,10 @@ classdef roiPolygon < impoly
         %% Callback for 'Get Intensity' context menus' item
         function getIntensity(obj)
             BW = obj.createMask;
-            obj.hGELUI.getIntensity(BW);
+            tf = obj.hGELUI.getIntensity(BW);
+            if tf
+                obj.hGELUI.GelDataObj.markROIobj(obj);
+            end
         end % getIntensity()
         
         %% Callback for 'Use to Calc. BG' context menus' item
