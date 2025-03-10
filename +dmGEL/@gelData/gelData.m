@@ -18,7 +18,7 @@ classdef gelData < handle
 
     properties (AbortSet = true)
         OriginalImg;
-        OriginalImgFilePath = '< No Data Loaded jet >';
+        OriginalImgFilePath = '< No Data Loaded yet >';
         GrayScaledImg;
         FilteredImg;
         ImgBackGround;
@@ -189,7 +189,7 @@ classdef gelData < handle
         %% Delete gel images
         function clearImages(obj)
             obj.OriginalImg = [];
-            obj.OriginalImgFilePath = '< No Data Loaded jet >';
+            obj.OriginalImgFilePath = '< No Data Loaded yet >';
             obj.GrayScaledImg = [];
             obj.FilteredImg = [];
             obj.ImgBackGround = [];

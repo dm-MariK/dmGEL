@@ -1,0 +1,21 @@
+2025-03-10 Version 0.6.3
+
+Started the development of a new class: dmGEL.improfPlotUI - to display Selection Details and Image Intensity Profiles
+Now it is at a blueprint stage.
+
+Added new class: dmGEL.Constants - to keep all the +dmGEL package Constants.
+Now it contains dmGEL.improfPlotUI class Constants only.
+
+Minor orthography fix in dmGEL.gelData main class definition file:
+"OriginalImgFilePath = '< No Data Loaded jet >';" --->  "OriginalImgFilePath = '< No Data Loaded yet >';"
+in the properties definition block
+and
+"obj.OriginalImgFilePath = '< No Data Loaded jet >';" --->   "obj.OriginalImgFilePath = '< No Data Loaded yet >';"
+in the clearImages() method. 
+Love you, Serbian jezik,.. fuck :-/
+
+Files:
+  +dmGEL/Constants.m
+  +dmGEL/@improfPlotUI - folder - all their content
+  +dmGEL/@gelData/gelData.m
+  
