@@ -26,3 +26,8 @@ if ~isempty(val) && obj.GelDataObj.CollectDataToFile
     fprintf(fid, '%d\n', val);
     fclose(fid);
 end
+
+%% Display details, if 1)The option is enabled AND 2)val is not empty
+if ~isempty(val) && obj.GelDataObj.DispCalcDetails
+    obj.dispCalcDetails(BW)
+end

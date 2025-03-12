@@ -53,6 +53,11 @@ obj.PflsVertLeft = wrap_improfile([xLeft; xLeft], [1; r]);
 %  - Vertical profiles through the right part of the selection:
 obj.PflsVertRight = wrap_improfile([xRight; xRight], [1; r]);
 
+% Save profiles' coordinates to the obj's properties.
+obj.YCntr = yCntr;
+obj.XCntr = xCntr;
+obj.XLeft = xLeft;
+obj.XRight = xRight;
 
 %% Wrapper for the 'improfile' function
 function P = wrap_improfile(xi, yi)

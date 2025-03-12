@@ -5,6 +5,7 @@
 % 4.0 International License. 
 %
 classdef  improfPlotUI < matlab.mixin.SetGet
+    %% Properties definition
     properties (Transient = true)
         %% HG-handles
         hFig;
@@ -24,8 +25,9 @@ classdef  improfPlotUI < matlab.mixin.SetGet
         hPlot_5; % array of Line objects on hAxes_5 (for PflsHorizontal)
         hPlot_6; % array of Line objects on hAxes_6 (for PflsVertRight)
 
-        % 'Export Data' main menu with its Items
-        hExportMenu;
+        % 'DATA' main menu with its Items
+        hDataMenu;
+        hRebuildChartsItem;
         hExportProfilesItem;
 
         % 'Preserve me!' main menu with its Items
@@ -33,11 +35,20 @@ classdef  improfPlotUI < matlab.mixin.SetGet
         hPreserveItem;
 
         %% To keep calculated data
+        BGCorrectedImg;  % copy of BGCorrectedImg from the GelDataObj
         SelectionImg;    % to keep prepared Img displaying the selection on the gel
         PflsHorizontal;  % horizontal improfiles through the selection center
         PflsVertCentral; % vertical improfiles through the selection center
         PflsVertLeft;    % vertical improfiles through the left part of the selection
         PflsVertRight;   % vertical improfiles through the right part of the selection
+        % Profiles' coordinates:
+        YCntr;
+        XCntr;
+        XLeft;
+        XRight;
+
+        %% Handle to the gelui obj whose method called the constructor of this improfPlotUI obj
+        Hgelui = [];
     end % properties (Transient = true)
 
     properties(Transient = true, AbortSet = true)
@@ -53,8 +64,11 @@ classdef  improfPlotUI < matlab.mixin.SetGet
         PlotAxesLshift = 0.01; % Left shift
         PlotAxesVshift = 0.01; % Vertical shift
     end % properties(Transient = true, AbortSet = true)
+    % ====================================================================
 
+    %% Mmethods definition
     methods
+        %% Set up location and sizing of the Axes
         function layoutAxes(obj)
             %% Axes 1 - left top - BG-corrected gel img
             a1l = obj.GelAxesPad;
@@ -144,10 +158,10 @@ classdef  improfPlotUI < matlab.mixin.SetGet
                 obj.layoutAxes;
             end
         end
+        % ================================================================
 
         %% Class constructor
-        % NOT FORGET TO SETAPPDATA WITH HANDLE TO THIS OBJ !!! !!! !!!
-        function obj = improfPlotUI(varargin)
+        function obj = improfPlotUI(h_gelui, selectionMask)
             %% Make the UI
             % Figure itself
             fPos = [24, 40, 1880, 880];
@@ -157,6 +171,7 @@ classdef  improfPlotUI < matlab.mixin.SetGet
                 'Position', fPos, ...
                 'DefaultUicontrolUnits', 'pixels', ...
                 'IntegerHandle', 'on', ...
+                'HandleVisibility', 'on', ...
                 'Renderer', 'opengl', ...
                 'MenuBar', 'figure', ...
                 'Toolbar', 'auto', ...
@@ -165,22 +180,109 @@ classdef  improfPlotUI < matlab.mixin.SetGet
                 'DockControls', 'on', ...
                 'PaperPositionMode', 'auto', ...
                 'PaperOrientation', 'landscape', ...
-                'Visible', 'off', ...
+                'Visible', 'off', ... % <------------------------------------ !!! !!! !!!
                 'Name', fName ...
                 );
 
             % Axes
-            axsArr = [obj.hAxes_1, obj.hAxes_2, obj.hAxes_3, obj.hAxes_4, obj.hAxes_5, obj.hAxes_6];
-            for k = 1:length(axsArr)
-                axsArr(k) = axes(...
-                    'Parent', obj.hFig, ...
-                    'Visible', 'on', ...
-                    'HandleVisibility', 'on', ...
-                    'NextPlot', 'add' ... %This is same as call `hold(hAxes, 'on')`; the default is 'replace'.
-                    );
-            end
+            obj.hAxes_1 = axes('Parent', obj.hFig, 'Visible', 'on', 'HandleVisibility', 'on', 'Tag', 'Axes_1');
+            obj.hAxes_2 = axes('Parent', obj.hFig, 'Visible', 'on', 'HandleVisibility', 'on', 'Tag', 'Axes_2');
+            obj.hAxes_3 = axes('Parent', obj.hFig, 'Visible', 'on', 'HandleVisibility', 'on', 'Tag', 'Axes_3');
+            obj.hAxes_4 = axes('Parent', obj.hFig, 'Visible', 'on', 'HandleVisibility', 'on', 'Tag', 'Axes_4');
+            obj.hAxes_5 = axes('Parent', obj.hFig, 'Visible', 'on', 'HandleVisibility', 'on', 'Tag', 'Axes_5');
+            obj.hAxes_6 = axes('Parent', obj.hFig, 'Visible', 'on', 'HandleVisibility', 'on', 'Tag', 'Axes_6');
             obj.layoutAxes;
 
+            %% Add uimenus to figure's MenuBar
+            % 'DATA' main menu with its Items
+            obj.hDataMenu = uimenu(obj.hFig, 'Text', 'D&ATA'); % specify a mnemonic keyboard shortcut (Alt+mnemonic) by using the ampersand (&) character
+            obj.hRebuildChartsItem = uimenu(obj.hDataMenu, ...
+                'Text', '&Rebuild Charts', ...
+                'Separator', 'off', ...
+                'MenuSelectedFcn', @(sec, events) obj.poltData ...
+                );
+            obj.hExportProfilesItem = uimenu(obj.hDataMenu, ...
+                'Text', '&Export Intensity Profiles', ...
+                'Separator', 'off', ...
+                'MenuSelectedFcn', @(sec, events) obj.exportProfiles ...
+                );
+
+            % 'Preserve me!' main menu with its Items
+            obj.hPreserveMenu = uimenu(obj.hFig, ...
+                'Text', '-> ! Preserve me ! <-', ...
+                'ForegroundColor', [1 0 0]);
+            obj.hPreserveItem = uimenu(obj.hPreserveMenu, ...
+                'Text', 'Prevent Charts auto-update on a new band selection', ...
+                'Separator', 'off', ...
+                'MenuSelectedFcn', @(sec, events) obj.disconnectGELUI);
+                % Preserve this Chart Figure from auto-updates
+                % Preserve Charts in this Figure from auto-updates
+                % Prevent Charts in this Figure from auto-updates
+                % Prevent Charts auto-update on a new band selection
+                % Forever prevent Charts auto-update on a new band selection
+
+            %% Set handle to the related gelui obj, create the charts
+            if nargin > 0
+                obj.Hgelui = h_gelui;
+                obj.updateData(h_gelui.GelDataObj, selectionMask);
+            end
+
+            %% Final steps ...
+            % set fig delete fcn and make figure Visible
+            set(obj.hFig, 'DeleteFcn', @obj.figDeleteFcn);
+            set(obj.hFig, 'Visible','on');
+ 
+            % Save the handle to THIS obj to the figure's app data 
+            setappdata(obj.hFig, 'THIS_UI_OBJ', obj);
         end % Class constructor
+        % ================================================================
+       
+        %% Delete method
+        function delete(obj)
+            disp(' >>> improfPlotUI : Delete method');
+            % Disconnect from the related gelui obj 
+            % (without modifying the uimenu)
+            obj.Hgelui.HimprofPlotUI = [];
+            obj.Hgelui = [];
+            % Delete the Figure if it is NOT 'BeingDeleted' yet
+            if strcmpi(get(obj.hFig, 'BeingDeleted'), 'off')
+                delete(obj.hFig);
+            end
+        end % Delete method
+        % ================================================================
+        
+        %% The Figure's 'DeleteFcn'
+        % function methodName(obj,src,eventData)
+        function figDeleteFcn(obj, ~, ~)
+            disp(' >>> improfPlotUI : figDeleteFcn');
+            delete(obj);
+        end % figDeleteFcn()
+        
+        % ================================================================
+
+        %% Method to update Data and Charts
+        function updateData(obj, GelDataObj, selectionMask)
+            % Make required calculations; update vals of the corresponding properties.
+            obj.prepImgs(GelDataObj, selectionMask);
+            obj.calcPfls(GelDataObj, selectionMask);
+            % Update Charts 
+            obj.poltData;
+        end
+
+        %% Disconnect this obj from the related gelui obj 
+        % (Forever prevent Charts auto-update on a new band selection)
+        % * remove handle to THIS obj from the related gelui obj property
+        % * remove handle to the related gelui obj from THIS obj property
+        % * set corresponding uimenu inactive and change its Text
+        % * and delete its Item that has called this method
+        function disconnectGELUI(obj)
+            %HimprofPlotUI
+            disp(' >>> improfPlotUI : |-> ! Preserve me ! <-| ---> Preserve me!')
+            obj.Hgelui.HimprofPlotUI = [];
+            obj.Hgelui = [];
+            set(obj.hPreserveMenu, 'Enable', 'off');
+            set(obj.hPreserveMenu, 'Text', '| PRESERVED |');
+            delete(obj.hPreserveItem);
+        end
     end % methods
 end % classdef

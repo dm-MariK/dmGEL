@@ -1,4 +1,4 @@
-function genSelectionImg(obj, GelDataObj, selectionMask)
+function prepImgs(obj, GelDataObj, selectionMask)
 % 
 % Will make the Selection representation as follows:
 % * The selected band with its neighbor inside the Selection will be of the
@@ -30,3 +30,6 @@ RestArea(:,:,1) = uint8(~selectionMask) .* bgColor(1);
 
 % Make the final Image - the sum of the selected img and the rest area
 obj.SelectionImg = SltdImg + RestArea;
+
+% Save BGCorrectedImg to the obj's property
+obj.BGCorrectedImg = bgCrtdImg;

@@ -58,6 +58,10 @@ classdef gelData < handle
         % and the file to collect the data to.
         CollectDataToFile = false;
         FileToCollectDataTo = '';
+
+        % Whether to Display Calculation Details:
+        % Selection Details and Image Intensity Profiles.
+        DispCalcDetails = false;
     end %properties
 
     properties (Constant)
@@ -276,6 +280,10 @@ classdef gelData < handle
         end
         function set.FileToCollectDataTo(obj, val)
             obj.FileToCollectDataTo = val;
+            obj.setModified;
+        end
+        function set.DispCalcDetails(obj, val)
+            obj.DispCalcDetails = val;
             obj.setModified;
         end
         % ----------------------------------------------------------------

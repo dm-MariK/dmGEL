@@ -281,6 +281,7 @@ classdef roiPolygon < impoly
         function newPosCback(obj)
             disp('roiPolygon : Vertex position has been modified');
             obj.hGELUI.GelDataObj.setModified;
+            obj.markSelected(false);
         end
         
         %% Delete method

@@ -18,9 +18,11 @@ else
         case 'Save'
             disp('User selected "Save"');
             doProceed = obj.saveSession;
-        case 'No'
+        case 'Do Not Save'
             disp('User selected "Do Not Save"');
             doProceed = true;
+            disp(' ++ gelui : checkSaveSession : doProceed:');
+            disp(doProceed)
         case 'Cancel'
             disp('User selected "Cancel"');
             doProceed = false;

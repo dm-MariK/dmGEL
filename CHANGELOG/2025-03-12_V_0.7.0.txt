@@ -1,0 +1,64 @@
+2025-03-12 Version 0.7.0
+
+Added new class: dmGEL.improfPlotUI - to display Selection Details and Image Intensity Profiles
+Files:
+  +dmGEL/@improfPlotUI - folder - all their content
+
+This required modifications to the dmGEL.gelui Class:
+1) To interact with dmGEL.improfPlotUI Class:
+  Added new method  dispCalcDetails()
+  and modified: getIntensity()
+  New property added: `HimprofPlotUI` - to store the associated improfPlotUI object.
+Files:
+  +dmGEL/@gelui/dispCalcDetails.m
+  +dmGEL/@gelui/getIntensity.m
+  +dmGEL/@gelui/gelui.m
+
+2) Since I decided to display all the Calculation Details 
+(both Selection Details and Image Intensity Profiles) on the one unified UI
+(due to design of dmGEL.improfPlotUI Class),
+modifications of 'View -> Calculation Details' uimenu were required:
+Now 'View -> Calculation Details' is menu item, not a submenu with its own items.
+To achieve this:
+  Removed dmGEL.gelui Class Properties:
+    DispSelectionDetails = false; % SelectionDetails
+    DispImgIntProfiles = false; % Image Intensity Profiles
+  Removed dmGEL.gelui Class Property:
+    `obj.hViewCalcDetailsSubmenu = uimenu(obj.hViewMenu, 'Text', 'Display Calculation Details' ...` 
+    (with all corresponding Properties for this Submenu items)
+  Added dmGEL.gelui Class Property instead:
+    `obj.hViewCalcDetails` - to represent 'View -> Calculation Details' uimenu item.
+  Methods of dmGEL.gelui Class:
+  removed:
+    setDispSelectionDetails
+    setDispImgIntProfiles
+  added instead:
+    setDispCalcDetails
+  modified:
+    clearAll  
+    
+  To store user's choice whether to display Calculation Details
+    new Property is added to dmGEL.gelData Class: `DispCalcDetails`.
+Files:
+  +dmGEL/@gelData/gelData.m
+  +dmGEL/@gelui/gelui.m
+  +dmGEL/@gelui/clearAll.m
+  +dmGEL/@gelui/setDispCalcDetails.m     <--- added
+  +dmGEL/@gelui/setDispSelectionDetails  /--- removed
+  +dmGEL/@gelui/setDispImgIntProfiles    /--- removed
+  
+------------------------------------------------------
+Other improvements: 
+
+1) add option `'HandleVisibility', 'on',` for hFig Property of dmGEL.gelui Class.
+Since setting `'HandleVisibility', 'off'` for a given figure makes it invisible for `gcf` call.
+Thus, its appdata could not be accessed without exact explicit handle to this Figure.
+  ---> CONSIDER modify this property for Axes !!!
+
+2) dmGEL.roiPolygon Class:
+Modified method: newPosCback() % ROI object change Position Callback
+Added `obj.markSelected(false);` -- now changing vertices position un-select the given roiPolygon
+
+Files:
+  +dmGEL/@gelui/gelui.m
+  +dmGEL/roiPolygon.m
