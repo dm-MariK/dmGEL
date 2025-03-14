@@ -1,0 +1,15 @@
+2025-03-14 Version 0.7.1
+
+dmGEL.improfPlotUI Class
+Now objects can be serialized: saved and loaded back by standard MATLAB calls: `save` and `load`:
+  added Constant properties to define CLASS, DATA_VERSION, PROPS2SAVE
+  added methods: saveobj(), loadobj() and loadData()
+Files: 
+  +dmGEL/@improfPlotUI/improfPlotUI.m
+-------------------------------------------------------
+
+dmGEL.gelData Class
+Started development of serialization.
+Files:
+  +dmGEL/@gelData/gelData.m
+  +dmGEL/@gelData/loadSavedData.m

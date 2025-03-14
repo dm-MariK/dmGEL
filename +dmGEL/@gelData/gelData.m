@@ -65,7 +65,7 @@ classdef gelData < handle
     end %properties
 
     properties (Constant)
-        % Define defaults for BGcalcFcn, FiltFcn and their additional args
+        %% Define defaults for BGcalcFcn, FiltFcn and their additional args
         % as Static (Constant) class properties.
         %
         % Use median filtering (medfilt2 function) with square neighborhood
@@ -83,6 +83,19 @@ classdef gelData < handle
         % BIGGER IN IT'S HEIGHT THAN THE BIGGEST BAND ON THE GELL IMAGE !!!
         DefaultBGcalcFcn = @dmGEL.bgRectImopen;
         DefaultBGcalcFcnArgs = {2, 2};
+
+        %% 'Signature' of saved object's data
+        CLASS = 'dmGEL.gelData';
+        DATA_VERSION = 1;
+        PROPS2SAVE = {'OriginalImg', ...
+            'OriginalImgFilePath', ...
+            'GrayScaledImg', ...
+            'FilteredImg', ...
+            'ImgBackGround', ...
+            'SessionName', ...    
+            'CollectDataToFile', ...
+            'FileToCollectDataTo', ...
+            'DispCalcDetails'};
     end %properties (Constant)
 
     %% Mmethods definition
@@ -91,8 +104,7 @@ classdef gelData < handle
         % * Initialize BGcalcFcn, FiltFcn and their additional args from
         %   their default values.
         % * Accepts 'Hgelui' as input or generates new gelui figure 
-        %   if 'Hgelui' is not passed.
-        % * -- Saves handle to THIS obj to the figure's "setappdata()" ---> gelui 
+        %   if 'Hgelui' is not passed. 
         function obj = gelData(h_gelui)
             disp('gelDATA : Class Constructor is called');
             obj.FiltFcn = dmGEL.gelData.DefaultFiltFcn;
@@ -288,6 +300,30 @@ classdef gelData < handle
         end
         % ----------------------------------------------------------------
 
+        %% saveobj method
+        function s = saveobj(obj)
+            s.CLASS = dmGEL.gelData.CLASS;
+            s.DATA_VERSION = dmGEL.gelData.DATA_VERSION;
+            props2save = dmGEL.gelData.PROPS2SAVE;
+            for k = 1:length(props2save)
+                s.(props2save{k}) = obj.(props2save{k});
+            end
+            % Process functions:
+            s.FiltFcn = func2str(obj.FiltFcn);
+            s.BGcalcFcn = func2str(obj.BGcalcFcn);
+            % Process functions's args:
+            s.FiltFcnArgs = dmCellArrayToString(obj.FiltFcnArgs);
+            s.BGcalcFcnArgs = dmCellArrayToString(obj.BGcalcFcnArgs);
+            % Process the array of roiPolygon objecs:
+            obj.fixHroiArr;
+            if ~isempty(obj.HroiArr)
+                for k = 1:length(obj.HroiArr)
+                    s.HroiArr(k) = obj.HroiArr(k).getSavedData;
+                end
+            end
+        end
+        % ----------------------------------------------------------------
+
         %% Delete method
         % now - for debug propose only
         % NOTE! This method does NOT call roiPolygon : Delete method for
@@ -295,6 +331,32 @@ classdef gelData < handle
         function delete(obj)
             disp('* gelDATA : Delete method');
         end
+        % ----------------------------------------------------------------
     end %methods
 
+    methods (Static)
+        %% loadobj method
+        function obj = loadobj(s)
+            % Call Class Constructor first to generate an 'empty' obj.
+            obj = dmGEL.gelData;
+
+            % !!! ADD SYNCHRONIZATION of gelui state !!! <------------- !!!
+            
+            % Parse the input 's'.
+            if isstruct(s)
+                disp('s is struct')
+                obj.loadSavedData(s)
+            else
+                % Try if 's' is already constructed class object
+                try
+                    class(s)
+                    dataStruct = s.saveobj;
+                    obj.loadSavedData(dataStruct);
+                catch ME
+                    error('dmGEL.gelData : loadobj() : \n%s', ...
+                        'ME.message');
+                end
+            end
+        end % loadobj
+    end % methods (Static)    
 end % classdef

@@ -6,6 +6,36 @@
 %
 classdef  improfPlotUI < matlab.mixin.SetGet
     %% Properties definition
+    properties (Constant)
+        CLASS = 'dmGEL.improfPlotUI';
+        DATA_VERSION = 1;
+        PROPS2SAVE ={'BGCorrectedImg', ...
+            'SelectionImg', ...
+            'PflsHorizontal', ...
+            'PflsVertCentral', ...
+            'PflsVertLeft', ...
+            'PflsVertRight', ...
+            'YCntr', ...
+            'XCntr', ...
+            'XLeft', ...
+            'XRight'};
+    end % properties (Constant)
+
+    properties
+        %% To keep calculated data
+        BGCorrectedImg;  % copy of BGCorrectedImg from the GelDataObj
+        SelectionImg;    % to keep prepared Img displaying the selection on the gel
+        PflsHorizontal;  % horizontal improfiles through the selection center
+        PflsVertCentral; % vertical improfiles through the selection center
+        PflsVertLeft;    % vertical improfiles through the left part of the selection
+        PflsVertRight;   % vertical improfiles through the right part of the selection
+        % Profiles' coordinates:
+        YCntr;
+        XCntr;
+        XLeft;
+        XRight;
+    end % properties
+
     properties (Transient = true)
         %% HG-handles
         hFig;
@@ -13,8 +43,8 @@ classdef  improfPlotUI < matlab.mixin.SetGet
         % Axes layout would be:
         %    (1)[gel] (3)[improfiles] (5)[improfiles]
         %    (2)[gel] (4)[improfiles] (6)[improfiles]
-        hAxes_1;
-        hAxes_2;
+        hAxes_1; % to show BGCorrectedImg
+        hAxes_2; % to show Image representing user's selection
         hAxes_3;
         hAxes_4;
         hAxes_5;
@@ -34,20 +64,7 @@ classdef  improfPlotUI < matlab.mixin.SetGet
         hPreserveMenu;
         hPreserveItem;
 
-        %% To keep calculated data
-        BGCorrectedImg;  % copy of BGCorrectedImg from the GelDataObj
-        SelectionImg;    % to keep prepared Img displaying the selection on the gel
-        PflsHorizontal;  % horizontal improfiles through the selection center
-        PflsVertCentral; % vertical improfiles through the selection center
-        PflsVertLeft;    % vertical improfiles through the left part of the selection
-        PflsVertRight;   % vertical improfiles through the right part of the selection
-        % Profiles' coordinates:
-        YCntr;
-        XCntr;
-        XLeft;
-        XRight;
-
-        %% Handle to the gelui obj whose method called the constructor of this improfPlotUI obj
+        % Handle to the gelui obj whose method called the constructor of this improfPlotUI obj
         Hgelui = [];
     end % properties (Transient = true)
 
@@ -284,5 +301,64 @@ classdef  improfPlotUI < matlab.mixin.SetGet
             set(obj.hPreserveMenu, 'Text', '| PRESERVED |');
             delete(obj.hPreserveItem);
         end
+
+        %% saveobj method
+        function s = saveobj(obj)
+            s.CLASS = dmGEL.improfPlotUI.CLASS;
+            s.DATA_VERSION = dmGEL.improfPlotUI.DATA_VERSION;
+            props2save = dmGEL.improfPlotUI.PROPS2SAVE;
+            for k = 1:length(props2save)
+                s.(props2save{k}) = obj.(props2save{k});
+            end
+        end
+
+        %% Method to load saved class data from struct
+        % This is to prevent loadobj() method from being called recursively
+        % The object will be constructed on load
+        function loadData(obj, s)
+            % * to be added lated - logics to verify the DATA_VERSION
+            if isfield(s, 'CLASS') && isequal(s.CLASS, dmGEL.improfPlotUI.CLASS)
+                props2save = dmGEL.improfPlotUI.PROPS2SAVE;
+                for k = 1:length(props2save)
+                    if isfield(s, props2save{k})
+                        obj.(props2save{k}) = s.(props2save{k});
+                    end
+                end
+                % Reconstruct charts
+                obj.poltData;
+            else
+                error('dmGEL.improfPlotUI : loadData() : \n%s', ...
+                    'This is NOT saved obj of this class.');
+            end
+        end
     end % methods
+
+    methods (Static)
+        %% loadobj method
+        function obj = loadobj(s)
+            % Call Class Constructor first to generate an 'empty' obj.
+            obj = dmGEL.improfPlotUI;
+
+            % Saved improfPlotUI obj is ALWAYS disconnected from gelui.
+            set(obj.hPreserveMenu, 'Enable', 'off');
+            set(obj.hPreserveMenu, 'Text', '| PRESERVED |');
+            delete(obj.hPreserveItem);
+
+            % Parse the input 's'.
+            if isstruct(s)
+                disp('s is struct')
+                obj.loadData(s)
+            else
+                % Try if 's' is already constructed class object
+                try
+                    class(s)
+                    dataStruct = s.saveobj;
+                    obj.loadData(dataStruct);
+                catch ME
+                    error('dmGEL.improfPlotUI : loadobj() : \n%s', ...
+                        'ME.message');
+                end
+            end
+        end % loadobj
+    end % methods (Static)
 end % classdef
