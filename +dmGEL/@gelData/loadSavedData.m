@@ -19,6 +19,11 @@ if isfield(s, 'CLASS') && isequal(s.CLASS, dmGEL.gelData.CLASS)
     % Load functions's args:
     obj.FiltFcnArgs = eval(s.FiltFcnArgs);
     obj.BGcalcFcnArgs = eval(s.BGcalcFcnArgs);
+
+    % Call refreshAll() method of Hgelui to make the gelui obj be prepared
+    % for roiPolygon objecs construction.
+    obj.Hgelui.refreshAll;
+
     % Reconstruct the array of roiPolygon objecs:
     delete(obj.HroiArr);
     obj.HroiArr = dmGEL.roiPolygon.empty;
@@ -29,6 +34,9 @@ if isfield(s, 'CLASS') && isequal(s.CLASS, dmGEL.gelData.CLASS)
             obj.HroiArr(k) = dmGEL.roiPolygon(obj.Hgelui, position, color);
         end
     end
+
+    % Just loaded session is always considered to be saved.
+    obj.IsSaved = true;
 
 else
     error('dmGEL.gelData : loadSavedData() : \n%s', ...

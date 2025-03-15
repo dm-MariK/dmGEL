@@ -18,10 +18,11 @@ if isequal(fileName, 0)
     disp('User canceled the file selection.');
     return
 else
-    % Display the selected file
+    % add try-catch block !!!
     selectedFile = fullfile(filePath, fileName);
     I = imread(selectedFile);
     obj.importImg(I, fileName, selectedFile);
+    %
     disp(['User selected: ', selectedFile]);
 end
 

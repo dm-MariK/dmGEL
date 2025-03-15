@@ -31,7 +31,7 @@ classdef gelData < handle
 
         % Session name. 1)to generate filename to save session to;
         % 2) to use to name gelui window.
-        SessionName = 'New Session';
+        SessionName = 'dmGEL: New Session';
 
         % Filter function and its additional arguments. 
         % Call syntax is expected to be:
@@ -61,7 +61,7 @@ classdef gelData < handle
 
         % Whether to Display Calculation Details:
         % Selection Details and Image Intensity Profiles.
-        DispCalcDetails = false;
+        DispCalcDetails = true;
     end %properties
 
     properties (Constant)

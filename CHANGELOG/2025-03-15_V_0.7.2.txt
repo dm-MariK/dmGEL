@@ -1,0 +1,21 @@
+2025-03-15 Version 0.7.2
+
+Further development of serialization for dmGEL.gelData Class objects in conjunction with required 
+functionality in dmGEL.gelui Class. 
+Development of saveSession() and loadSession() methods of dmGEL.gelui Class.
+NOT TESTED YET.
+
+Files:
+  modified:
+    +dmGEL/@gelData/gelData.m
+    +dmGEL/@gelData/loadSavedData.m
+    +dmGEL/@gelui/clearAll.m
+    +dmGEL/@gelui/clearBG.m
+    +dmGEL/@gelui/clearSession.m
+    +dmGEL/@gelui/gelui.m
+    +dmGEL/@gelui/importFile.m
+    +dmGEL/@gelui/importImg.m
+  created:
+    +dmGEL/@gelui/loadSession.m
+    +dmGEL/@gelui/refreshAll.m
+    +dmGEL/@gelui/setCheckedUimenus.m

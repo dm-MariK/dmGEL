@@ -205,9 +205,11 @@ uicontrol('Parent', fig, ...
                 hImage = findobj(obj.hAxes, 'Type', 'image');
                 delete(hImage);
                 obj.toggleBotPan;
+                set(obj.hFig, 'Name', 'dmGEL: < No Image Loaded >');
             end
             if get(bandCkb, 'Value') % clear band selections
                 delete(obj.GelDataObj.HroiArr); % <------------------------- UNDER DEVELOPMENT !!!
+                obj.GelDataObj.fixHroiArr;
             end
             % Close the modal dialog window
             delete(fig);

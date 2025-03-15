@@ -74,6 +74,10 @@ classdef gelui < matlab.mixin.SetGet
         hNewSelectionItem;
         % ^ this is due to it is not a good idea to use a main menu as a Button
         % =================================================
+
+        %% Associated gelData object and improfPlotUI object
+        GelDataObj;
+        HimprofPlotUI = [];
     end % properties (Transient)
 
     properties
@@ -91,10 +95,6 @@ classdef gelui < matlab.mixin.SetGet
         % Now there is `DispCalcDetails` property of dmGEL.gelData Class
         % =================================================
 
-        %% Associated gelData object and improfPlotUI object
-        GelDataObj;
-        HimprofPlotUI = [];
-        
     end % properties
     
     properties (SetAccess = protected, Hidden = true, Transient = true)
@@ -509,8 +509,18 @@ classdef gelui < matlab.mixin.SetGet
             % Set Figure's Close Request Function
             set(obj.hFig, 'CloseRequestFcn', @obj.figCloseRequestFcn);
 
-            % setappdata(h,'API',api); % <-- Store the handles to the fig
-            % app data ...
+            % Update the Figure's name
+            set(obj.hFig, 'Name', obj.GelDataObj.SessionName);
+
+            % Update checkable uimenus' items check-status.
+            obj.setCheckedUimenus;
+            obj.updateViewUImenu;
+            
+            % Switch Bottom Panel to its 'normal' mode.
+            obj.toggleBotPan;
+
+            % Save the handle to THIS obj to the figure's app data 
+            setappdata(obj.hFig, 'GELUI_OBJ', obj);
 
         end % Class Constructor
         % ================================================================

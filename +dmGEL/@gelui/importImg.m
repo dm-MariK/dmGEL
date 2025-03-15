@@ -16,7 +16,7 @@ obj.GelDataObj.importImg(I)
 obj.GelDataObj.OriginalImgFilePath = fullPath;
 
 % Set Session name - STUB! - append current date and time!
-sessionName = name;
+sessionName = ['dmGEL: ', name];
 % -----------------
 obj.GelDataObj.SessionName = sessionName;
 set(obj.hFig, 'Name', sessionName);
@@ -30,13 +30,18 @@ delete(obj.hAxTB);
 existingImages = findobj(obj.hAxes, 'Type', 'image');
 delete(existingImages);
 % Use imshow to display GrayScaled Image on the axes
-imshow(obj.GelDataObj.GrayScaledImg, 'Parent', obj.hAxes);
+h_img = imshow(obj.GelDataObj.GrayScaledImg, 'Parent', obj.hAxes);
+
+% Fix order of hAxes Children. h_img must always be at the bottom;
+% otherwise roiPoly selections will be non-visible (shadowed by h_img).
+axesChildren = get(obj.hAxes, 'Children');
+nonImgIdx = ~ismember(axesChildren, h_img);
+nonImgAxesChildren = axesChildren(nonImgIdx);
+axesChildren = [nonImgAxesChildren', h_img];
+set(obj.hAxes, 'Children', axesChildren);
 
 % Re-create the axtoolbar
 obj.hAxTB = axtoolbar(obj.hAxes, {'pan', 'zoomin', 'zoomout', 'restoreview'});
-
-% Here should come some 'magic' with preservation / removing selection poligons
-% <--- TO DO !!!
 
 % update View selection, select 'GrayScaled' (set it checked)
 obj.updateViewUImenu;
