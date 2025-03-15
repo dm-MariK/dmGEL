@@ -272,12 +272,12 @@ classdef gelui < matlab.mixin.SetGet
             obj.hFileSave = uimenu(obj.hFileMenu, ...
                 'Text', 'Save Session', ... %'Accelerator', <- Add this functionality later !!!
                 'Separator', 'on', ...
-                'MenuSelectedFcn', @(sec, events) disp('File -> Save Session') ...
+                'MenuSelectedFcn', @(sec, events) obj.saveSession ...
                 );
             obj.hFileLoad = uimenu(obj.hFileMenu, ...
                 'Text', 'Load Session', ... %'Accelerator', <- Add this functionality later !!!
                 'Separator', 'off', ...
-                'MenuSelectedFcn', @(sec, events) disp('File -> Load Session') ...
+                'MenuSelectedFcn', @(sec, events) obj.loadSession ...
                 );
             obj.hFileClear = uimenu(obj.hFileMenu, ...
                 'Text', 'Clear Session', ... %'Accelerator', <- Add this functionality later !!!
@@ -563,7 +563,20 @@ classdef gelui < matlab.mixin.SetGet
                 delete(obj.hFig);
             end
         end % figCloseRequestFcn()
+        % ================================================================
+        
+        %% saveobj method
+        function s = saveobj(obj)
+            s = obj.GelDataObj.saveobj;
+        end % saveobj()
+    end % methods
 
-    end %methods
+    methods (Static)
+        %% loadobj method
+        function obj = loadobj(s)
+            gelDataObj = dmGEL.gelData.loadobj(s);
+            obj = gelDataObj.Hgelui;
+        end % loadobj
+    end % methods (Static)
 
 end % classdef
