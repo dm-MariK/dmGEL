@@ -1,0 +1,6 @@
+2025-03-16 Version 0.7.4
+
+File: dm_ui_sugar/dmCellArrayToString.m
+
+Added the ability to parse cell array elements that are of class  'function_handle', 
+in addition to numeric (scalar, vector or matrix) and text strings.
