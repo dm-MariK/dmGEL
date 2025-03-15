@@ -1,0 +1,5 @@
+2025-03-16 Version 0.7.5
+
+Created the wrapper to call dmGEL.gelui without the package notation: `dmGELQUANTtool`.
+File:
+  dmGELQUANTtool.m
