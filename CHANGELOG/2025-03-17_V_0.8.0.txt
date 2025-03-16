@@ -1,0 +1,10 @@
+2025-03-17 Version 0.8.0
+
+Fixed issue in importImg() method of dmGEL.gelui Class:
+`imshow` removes all other axes' 'Children'.
+Added code to preserve the selection poligons of obj.GelDataObj (HroiArr) if they exist.
+
+File:
+  +dmGEL/@gelui/importImg.m
+  
+NOW Saving and Loading objects' data SHOULD CONSIDERED TO BE FINALLY REALIZED.

@@ -1,0 +1,40 @@
+2025-03-16 Version 0.7.5 COMMENT
+
+TESTED:
+* serialization for dmGEL.gelData Class objects 
+  and for dmGEL.gelui Class objects.
+* of saveSession() and loadSession() methods of dmGEL.gelui Class
+====================================================================================================
+What was modified in comparison with Version 0.7.0 (for dmGEL.gelui and dmGEL.gelData Classes only)
+---------------------------------------------------------------------------------------------------
+1. Added serialization for dmGEL.gelData Class objects and for dmGEL.gelui Class objects.
+2. Added the ability to save current session to a file and to load saved sessions from the files.
+
+dmGEL.gelData Class
+  added added Constant properties to define CLASS, DATA_VERSION, PROPS2SAVE
+  added methods: saveobj(), loadobj() and loadSavedData()
+Files:
+  +dmGEL/@gelData/gelData.m       (modified)
+  +dmGEL/@gelData/loadSavedData.m (created)
+
+dmGEL.gelui Class
+  added saveobj(), loadobj() methods to enable (customize) serialization
+  added method loadSession() -- to load a saved session's data from a file; set to be 'File -> Load Session' uimenu Item Callback
+  added methods setCheckedUimenus() and refreshAll() to adjust the gelui's UI after session data is loaded
+  method saveSession() is not a stub now; it actually saves to a file a data of the current session; set to be 'File -> Save Session' uimenu Item Callback
+  modified methods: clearAll(), clearSession(), importFile(), importImg() -- to fit with Load Session / Save Session functionality;
+  clearBG() -- removed clearing of BackGround corrected image, since this property of dmGEL.gelData Class is dynamically calculated (Dependent attribute)
+  
+Files:
+  modified:
+    +dmGEL/@gelui/gelui.m
+    +dmGEL/@gelui/saveSession.m    
+    +dmGEL/@gelui/clearAll.m
+    +dmGEL/@gelui/clearBG.m
+    +dmGEL/@gelui/clearSession.m
+    +dmGEL/@gelui/importFile.m
+    +dmGEL/@gelui/importImg.m
+  created:
+    +dmGEL/@gelui/loadSession.m
+    +dmGEL/@gelui/refreshAll.m
+    +dmGEL/@gelui/setCheckedUimenus.m
