@@ -29,5 +29,9 @@ classdef Constants
         PlotCrtdLineWidth = 2;
         PlotSelectionColor = [0 0 0];
         PlotSelectionLineWidth = 2;
+
+        % To export Image Intensity Profiles as CSV
+        PflsExportTwoLineHdr = true;
+        PflsExportNumPrecisionORformat = 5; % precision / format used by num2str while converting to CSV
     end
 end

@@ -1,0 +1,15 @@
+2025-03-18 Version 0.8.1
+
+dmGEL.improfPlotUI Class
+Method exportProfiles() is ready and works now just as planned.
+That required to:
+  Create two auxiliary functions: `cellArrayToCSV` and `matrices2CSVreadyCell`
+  Add some constants to dmGEL.Constants
+  
+Files:
+  Modified:
+    +dmGEL/@improfPlotUI/exportProfiles.m
+    +dmGEL/Constants.m
+  Created:
+  dm_ui_sugar/cellArrayToCSV.m
+  dm_ui_sugar/matrices2CSVreadyCell.m
