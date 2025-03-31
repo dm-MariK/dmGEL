@@ -8,3 +8,6 @@ Files:
   Modified:
     +dmGEL/@improfPlotUI/improfPlotUI.m
     +dmGEL/Constants.m
+------------------------------------
+Forgotten: fPos from the Class Constructor. --> Constants.ImprofPlotInitFigPosition
+Fixed.

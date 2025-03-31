@@ -5,6 +5,9 @@ classdef Constants
         % ...
 
         %% improfPlotUI specific Constants
+        % The initial Figure's Position:
+        ImprofPlotInitFigPosition = [24, 40, 1880, 880];
+        % ----------------------------------------------------------------
         % The Axes layout parameters - all are of 'Units', 'normalized'
         AxesTileHeight = 0.5;    % renamed from TileHeight
         AxesGelTileWidth = 0.33; % renamed from GelTileWidth
@@ -17,7 +20,7 @@ classdef Constants
         PlotAxesLshift = 0.01; % Left shift
         PlotAxesVshift = 0.01; % Vertical shift
         % ----------------------------------------------------------------
-        
+
         % To representat a band-area Selection:
         SelectionImgBGColor = hsv2rgb([1/12, 0.3125, 1]); % light orange close to white
         SelectionTrackColor = [0, 1, 0]; % green as is ;)

@@ -181,7 +181,7 @@ classdef  improfPlotUI < matlab.mixin.SetGet
         function obj = improfPlotUI(h_gelui, selectionMask)
             %% Make the UI
             % Figure itself
-            fPos = [24, 40, 1880, 880];
+            fPos = dmGEL.Constants.ImprofPlotInitFigPosition;
             fName ='Selection Details: Image Intensity Profiles';
             obj.hFig = figure(...
                 'Units', 'pixels', ...
