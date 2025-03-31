@@ -70,16 +70,16 @@ classdef  improfPlotUI < matlab.mixin.SetGet
 
     properties(Transient = true, AbortSet = true)
         %% The Axes layout parameters - all are of 'Units', 'normalized'
-        TileHeight = 0.5;
-        GelTileWidth = 0.33;
+        TileHeight = dmGEL.Constants.AxesTileHeight; %0.5;%
+        GelTileWidth = dmGEL.Constants.AxesGelTileWidth; %0.33;%
 
         % Subplots' padding: Relative to Tile's dimentions but NOT as fractions of them.
-        GelAxesPad = 0.005; % all - left, right, top, bottom
-        PlotAxesRight = 0.01;
-        PlotAxesTop = 0.015;
+        GelAxesPad = dmGEL.Constants.GelAxesPad; %0.005; % all - left, right, top, bottom
+        PlotAxesRight = dmGEL.Constants.PlotAxesRight; %0.01;%
+        PlotAxesTop = dmGEL.Constants.PlotAxesTop; %0.015;%
         %  --- additional space for X- and Y-axis labels ---
-        PlotAxesLshift = 0.01; % Left shift
-        PlotAxesVshift = 0.01; % Vertical shift
+        PlotAxesLshift = dmGEL.Constants.PlotAxesLshift; %0.01;% % Left shift
+        PlotAxesVshift = dmGEL.Constants.PlotAxesVshift; %0.01;% % Vertical shift
     end % properties(Transient = true, AbortSet = true)
     % ====================================================================
 

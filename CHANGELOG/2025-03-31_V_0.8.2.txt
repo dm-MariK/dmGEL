@@ -1,0 +1,10 @@
+2025-03-31 Version 0.8.2
+
+dmGEL.improfPlotUI Class
+dmGEL.Constants Class
+The Axes layout parameters: initial values of these Properties of dmGEL.improfPlotUI Class are now defined in dmGEL.Constants Class.
+  
+Files:
+  Modified:
+    +dmGEL/@improfPlotUI/improfPlotUI.m
+    +dmGEL/Constants.m

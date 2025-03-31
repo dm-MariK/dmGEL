@@ -5,6 +5,19 @@ classdef Constants
         % ...
 
         %% improfPlotUI specific Constants
+        % The Axes layout parameters - all are of 'Units', 'normalized'
+        AxesTileHeight = 0.5;    % renamed from TileHeight
+        AxesGelTileWidth = 0.33; % renamed from GelTileWidth
+
+        % Subplots' padding: Relative to Tile's dimentions but NOT as fractions of them.
+        GelAxesPad = 0.005; % all - left, right, top, bottom
+        PlotAxesRight = 0.01;
+        PlotAxesTop = 0.015;
+        %  --- additional space for X- and Y-axis labels ---
+        PlotAxesLshift = 0.01; % Left shift
+        PlotAxesVshift = 0.01; % Vertical shift
+        % ----------------------------------------------------------------
+        
         % To representat a band-area Selection:
         SelectionImgBGColor = hsv2rgb([1/12, 0.3125, 1]); % light orange close to white
         SelectionTrackColor = [0, 1, 0]; % green as is ;)
