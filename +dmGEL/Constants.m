@@ -93,5 +93,10 @@ classdef Constants
         % To export Image Intensity Profiles as CSV
         PflsExportTwoLineHdr = true;
         PflsExportNumPrecisionORformat = 5; % precision / format used by num2str while converting to CSV
+
+        %% roiPolygon specific Constants ---------------------------------
+        % Color of a roiObj when the obj isSelected 
+        % (orange by default: hsv2rgb([1/12, 0.9, 1]);)
+        SelectedPolygonColor = hsv2rgb([1/12, 0.9, 1]);
     end
 end

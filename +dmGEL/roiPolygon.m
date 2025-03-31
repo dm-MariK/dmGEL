@@ -40,28 +40,33 @@ classdef roiPolygon < impoly
         % polygon context menus:
         hBodyCmenu;
         hVertexCmenu;
-        % ----------------------
-        
-        hGELUI = []; % handle to the related gelui Object containing Axes
-        
-        % Color to set when this roiObj isSelected (orange by default)
-        SelectedColor = hsv2rgb([1/12, 0.9, 1]);
-        
-    end %properties
+        % handle to the related gelui Object containing Axes
+        hGELUI = [];
+    end % properties (Transient)
+
+    properties (Dependent, SetAccess = private)
+        % Color to set when this roiObj isSelected 
+        %(orange by default: = hsv2rgb([1/12, 0.9, 1]); )
+        SelectedColor;
+    end % properties (Dependent, SetAccess = private)
     
     properties (SetAccess = protected, Transient)
-        % flag to indicate whether this roiObj is Selected (in context of
-        % the gelData Object) 
+        % Flag to indicate whether this roiObj is Selected (in context of
+        % the gelData Object).
         isSelected = false; 
         
         % Preserve here the original color of the roiPolygon while it is
         % Selected (and its color is temporary changed to 'SelectedColor').
         OriginalColor;
-        
     end %properties 
     
     %% Mmethods definition
     methods
+        %% SelectedColor get method
+        function val = get.SelectedColor(~)
+            val = dmGEL.Constants.SelectedPolygonColor;
+        end
+
         %% Class Constructor 
         function obj = roiPolygon(geluiObj, position, color)
             if nargin < 2

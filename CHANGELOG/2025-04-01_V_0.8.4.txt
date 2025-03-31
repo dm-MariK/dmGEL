@@ -1,0 +1,8 @@
+2025-04-01 Version 0.8.4
+
+dmGEL.roiPolygon Class (and dmGEL.Constants Class):
+'SelectedColor' property of the dmGEL.roiPolygon Class is now made Dependent. Its get() method is now referencing to dmGEL.Constants.SelectedPolygonColor property.
+
+Files modified:
+  +dmGEL/Constants.m
+  +dmGEL/roiPolygon.m
