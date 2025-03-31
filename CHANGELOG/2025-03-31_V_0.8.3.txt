@@ -1,0 +1,6 @@
+2025-03-31 Version 0.8.3
+
+dmGEL.gelui Class:
+* UI layout parameters were separated to 2 groups:
+  - Constants that should never be changed. Now have attributes (SetAccess = private, Transient = true). This group includes Tags an some other string parameters.
+  - Adjustable UI layout parameters. Here are sizing and color parameters with attributes (Transient = true, AbortSet = true). For these properties set() methods are added so that to immediately modify the ui-layout on the property value change. The presets for these properties' values are moved to dmGEL.Constants Class.

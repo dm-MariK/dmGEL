@@ -1,10 +1,54 @@
 % Define the +dmGEL package Constants.
 classdef Constants
     properties (Constant)
-        % Add other constants here
-        % ...
+        %% Package-wide Constants ----------------------------------------
+        % Whether to disp debug messages
+        DebugMode = true; % now have no sense
 
-        %% improfPlotUI specific Constants
+        %% gelui specific Constants --------------------------------------
+        % The initial Figure's Position:
+        GU_InitFigPosition = [6, 6, 900, 600];
+
+        % Figure color
+        GU_F_Color = get(0, 'DefaultUicontrolBackgroundColor');
+                     % hsv2rgb([0.35, 0.7, 0.7020]); 
+               % Change it later. Use this color to disp Orig Img File Path
+
+        % Some appearance settings of the Panels
+        GU_Pan_Color = get(0, 'DefaultUicontrolBackgroundColor');
+        GU_Pan_BorderType = 'line'; % 'none';
+        GU_Pan_BorderWidth = 1;
+        GU_Pan_HighlightColor = get(0, 'DefaultUipanelHighlightColor');
+
+        % the Axes 'Position' (normalized Units) and Tag
+        GU_Axs_Pos = [0.01, 0.01, 0.98, 0.98];
+        % ----------------------------------------------------------------
+
+        % Minimal Top (central) Panel width and height
+        GU_Min_TPw = 500;
+        GU_Min_TPh = 300;
+        
+        % Height of Bottom Panel ...
+        GU_BotPanHeight = 27;
+        % ... and of its uicontrols
+        GU_EdtHeight = 23;
+        GU_TxtHeight = 18;
+        GU_EdtBottom = 2;
+        GU_TxtBottom = 2;
+        % ------------
+        GU_TxtLeft = 20; %24;
+        GU_TxtEdtSpan = 10;
+        GU_ValueTxtWidth = 60;
+        GU_PathTxtWidth = 140
+
+        % Common (default) uiControl Positon parameters
+        %BtnLeft = 24;
+        %BtnWidth = 139;
+        %BtnHeight = 25;
+        %EdtHeight = 23;
+        %TopDist = 30; % Top distance of the 1-st uiControl (from Top)
+
+        %% improfPlotUI specific Constants -------------------------------
         % The initial Figure's Position:
         ImprofPlotInitFigPosition = [24, 40, 1880, 880];
         % ----------------------------------------------------------------

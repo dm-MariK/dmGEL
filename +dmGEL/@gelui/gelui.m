@@ -80,96 +80,144 @@ classdef gelui < matlab.mixin.SetGet
         HimprofPlotUI = [];
     end % properties (Transient)
 
-    properties
-        %% Workflow variables
-        % % Whether to collect acquired gel intensity data to a file
-        % % and the file to collect the data to.
-        %CollectDataToFile = false;
-        %FileToCollectDataTo = '';
-        % ^<--------------------------------- moved to dmGEL.gelData Class
-
-        % Whether to Display Calculation Details: 
-        %DispSelectionDetails = false; % SelectionDetails
-        %DispImgIntProfiles = false; % Image Intensity Profiles
-        % ^<---- removed.
-        % Now there is `DispCalcDetails` property of dmGEL.gelData Class
-        % =================================================
-
-    end % properties
-    
-    properties (SetAccess = protected, Hidden = true, Transient = true)
-        %% Some presets for the UI layout
+    properties (SetAccess = private, Transient = true)
+        %% Constants that should never be changed
+        % The Figure's initial 'Name' (used on-construction only) and 'Tag'
+        F_Name = ' -- New dmGEL Session -- '; % PRIVATE
+        F_Tag = 'dmGEL.gelui.hFig'; % PRIVATE
         
-        % figure size 
-        % (WAS maximal for my screen on X220i, if used with tabdlg)
-        F_left = 6;
-        F_bottom = 6;
-        F_width =  900; % 1340; %1356;
-        F_height = 600;
-
-        % figure color, 'Name' and 'Tag'
-        F_Color = hsv2rgb([0.35, 0.7, 0.7020]); % Change it later. Use this color to disp Orig Img File Path
-        F_Name = ' -- New dmGEL Session -- ';
-        F_Tag = 'dmGEL.gelui.hFig';
-        % ----------------------------------------
-        
-        % Minimal Top (central) Panel width and height
-        Min_TPw = 500;  
-        Min_TPh = 300;
-        
-        % height of Bottom Panel ...
-        BotPanHeight = 27;
-        % ... and its uicontrols
-        EdtHeight = 23;
-        TxtHeight = 18;
-        EdtBottom = 2;
-        TxtBottom = 2;
-        % ------------
-        TxtLeft = 20; %24;
-        TxtEdtSpan = 10;
-        ValueTxtWidth = 60;
-        PathTxtWidth = 140;
-
         % Allowed 'String' values of the Txt uicontrol of the Bottom Panel
-        ValueTxtString = 'Value:';
-        PathTxtString = 'Original Image File:';
+        ValueTxtString = 'Value:'; % PRIVATE
+        PathTxtString = 'Original Image File:'; % PRIVATE
 
         % Bottom Panel uicontrols' Tags
-        ValueTxt_Tag = 'dmGEL.gelui.hValueTxt'
-        ValueEdt_Tag = 'dmGEL.gelui.hValueEdt'
+        ValueTxt_Tag = 'dmGEL.gelui.hValueTxt'; % PRIVATE
+        ValueEdt_Tag = 'dmGEL.gelui.hValueEdt'; % PRIVATE
 
-        % some appearance settings of the Panels
-        Pan_Color = get(0, 'DefaultUicontrolBackgroundColor'); % <-- ChildPan_Color
-        Pan_BorderType = 'line'; % <-- ChildPan_BorderType = 'line';
-        %Pan_BorderType = 'none';
-        Pan_BorderWidth = 1; % <-- ChildPan_BorderWidth = 1;
-        Pan_HighlightColor = get(0, 'DefaultUipanelHighlightColor'); % <-- ChildPan_HighlightColor
+        % The Axes Tag
+        Axs_Tag = 'dmGEL.gelui.hAxes'; % PRIVATE
         
-        % Panels' Tags -- not need
-        % ----------------------------------------
-        
-        % the Axes 'Position' (normalized Units) and Tag
-        Axs_Pos = [0.01, 0.01, 0.98, 0.98];
-        Axs_Tag = 'dmGEL.gelui.hAxes';
-        % ----------------------------------------
-        
-        % Common (default) uiControl Positon parameters
-        %BtnLeft = 24;
-        %BtnWidth = 139;
-        %BtnHeight = 25;
-        %EdtHeight = 23;
-        %TopDist = 30; % Top distance of the 1-st uiControl (from Top)
-        
-        % Tags for 'View' uimenu's Items to toggle image view mode
+        % Tags for 'View' uimenu's Items to toggle image view mode % PRIVATE
         OriginalImageViewItem_Tag = 'Original'
         GrayScaledImageViewItem_Tag = 'GrayScaled'
         FilteredImageViewItem_Tag = 'Filtered'
         BackGroundViewItem_Tag = 'BackGround'
         BGCorrectedImageViewItem_Tag = 'BGCorrected'
+    end % properties (SetAccess = private, Transient = true)
+
+    properties (Transient = true, AbortSet = true)
+        %% Some adjustable UI layout parameters
+        % Figure color
+        F_Color = dmGEL.Constants.GU_F_Color;
+        % dmGEL.Constants.GU_ ; %
+        % Some appearance settings of the Panels
+        Pan_Color = dmGEL.Constants.GU_Pan_Color; %get(0, 'DefaultUicontrolBackgroundColor'); 
+        Pan_BorderType = dmGEL.Constants.GU_Pan_BorderType; %'line';
+        Pan_BorderWidth = dmGEL.Constants.GU_Pan_BorderWidth; %1;
+        Pan_HighlightColor = dmGEL.Constants.GU_Pan_HighlightColor; %get(0, 'DefaultUipanelHighlightColor'); 
+
+        % the Axes 'Position' (normalized Units) and Tag
+        Axs_Pos = dmGEL.Constants.GU_Axs_Pos; %[0.01, 0.01, 0.98, 0.98];
+        % ----------------------------------------------------------------
+
+        % Minimal Top (central) Panel width and height
+        Min_TPw = dmGEL.Constants.GU_Min_TPw; %500;
+        Min_TPh = dmGEL.Constants.GU_Min_TPh; %300;
         
-    end % properties (SetAccess = protected, Hidden = true, Transient = true)
+        % Height of Bottom Panel ...
+        BotPanHeight = dmGEL.Constants.GU_BotPanHeight; %27;
+        % ... and of its uicontrols
+        EdtHeight = dmGEL.Constants.GU_EdtHeight; %23;
+        TxtHeight = dmGEL.Constants.GU_TxtHeight; %18;
+        EdtBottom = dmGEL.Constants.GU_EdtBottom; %2;
+        TxtBottom = dmGEL.Constants.GU_TxtBottom; %2;
+        % ------------
+        TxtLeft = dmGEL.Constants.GU_TxtLeft; %20; %24;
+        TxtEdtSpan = dmGEL.Constants.GU_TxtEdtSpan; %10;
+        ValueTxtWidth = dmGEL.Constants.GU_ValueTxtWidth; %60;
+        PathTxtWidth = dmGEL.Constants.GU_PathTxtWidth; %140
+    end % properties (Transient = true, AbortSet = true)
     
-    %% Mmethods definition
+    
+    %% Mmethods definition ===============================================
+    methods
+        %% Properties set-methods
+        function set.F_Color(obj, val) 
+            set(obj.hFig, 'Color', val);
+            obj.F_Color = val;
+        end
+        function set.Pan_Color(obj, val)
+            set(obj.hTopPan, 'BackgroundColor', val);
+            set(obj.hBotPan, 'BackgroundColor', val);
+            obj.Pan_Color = val;
+        end
+        function set.Pan_BorderType(obj, val)
+            set(obj.hTopPan, 'BorderType', val);
+            set(obj.hBotPan, 'BorderType', val);
+            obj.Pan_BorderType = val;
+        end
+        function set.Pan_BorderWidth(obj, val)
+            set(obj.hTopPan, 'BorderWidth', val);
+            set(obj.hBotPan, 'BorderWidth', val);
+            obj.Pan_BorderWidth = val; 
+        end
+        function set.Pan_HighlightColor(obj, val)
+            set(obj.hTopPan, 'HighlightColor', val);
+            set(obj.hBotPan, 'HighlightColor', val);
+            obj.Pan_HighlightColor = val;
+        end
+        function set.Axs_Pos(obj, val)
+            set(obj.hAxes, 'Position', val);
+            obj.Axs_Pos = val;
+        end
+        % ----------------------------------------------------------------
+        
+        function set.Min_TPw(obj, val)
+            obj.Min_TPw = val; 
+            obj.updatePanelsPosition;
+        end
+        function set.Min_TPh(obj, val)
+            obj.Min_TPh = val; 
+            obj.updatePanelsPosition;
+        end
+        function set.BotPanHeight(obj, val)
+            obj.BotPanHeight = val; 
+            obj.updatePanelsPosition;
+        end
+        function set.EdtHeight(obj, val)
+            obj.EdtHeight = val; 
+            obj.updatePanelsPosition;
+        end
+        function set.TxtHeight(obj, val)
+            obj.TxtHeight = val; 
+            obj.updatePanelsPosition;
+        end
+        function set.EdtBottom(obj, val)
+            obj.EdtBottom = val; 
+            obj.updatePanelsPosition;
+        end
+        function set.TxtBottom(obj, val)
+            obj.TxtBottom = val; 
+            obj.updatePanelsPosition;
+        end
+        function set.TxtLeft(obj, val)
+            obj.TxtLeft = val; 
+            obj.updatePanelsPosition;
+        end
+        function set.TxtEdtSpan(obj, val)
+            obj.TxtEdtSpan = val; 
+            obj.updatePanelsPosition;
+        end
+        function set.ValueTxtWidth(obj, val)
+            obj.ValueTxtWidth = val; 
+            obj.updatePanelsPosition;
+        end
+        function set.PathTxtWidth(obj, val)
+            obj.PathTxtWidth = val; 
+            obj.updatePanelsPosition;
+        end
+    end % methods
+    % ====================================================================
     methods (Access = protected, Hidden = true)
         %% Create the UI
         function makeUI(obj)
@@ -177,7 +225,7 @@ classdef gelui < matlab.mixin.SetGet
             %obj.F_Color = get(0,'DefaultUicontrolBackgroundColor');
             obj.hFig = figure(...
                 'Units', 'pixels', ...
-                'Position', [obj.F_left obj.F_bottom obj.F_width obj.F_height], ...
+                'Position', dmGEL.Constants.GU_InitFigPosition, ...
                 'DefaultUicontrolUnits', 'pixels', ...
                 'Color', obj.F_Color, ...
                 'IntegerHandle', 'off', ...
