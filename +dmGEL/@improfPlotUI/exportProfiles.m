@@ -28,7 +28,7 @@ PVR = 1:size(obj.PflsVertRight, 1); % Vertical Right
 PVR = [PVR(:), obj.PflsVertRight];
 
 % Combine profiles to single cell array.
-dataCell = matrices2CSVreadyCell(PVC, PHC, PVL, PVR);
+dataCell = dmGEL.dmAUX.matrices2CSVreadyCell(PVC, PHC, PVL, PVR);
 
 %% Prepend data header
 col_hdrs = {'Distance along profile', ...
@@ -67,7 +67,7 @@ end
 selectedFile = fullfile(fpath, fname);
 try
     % cellArrayToCSV(cellArray, filename, numPrecFmt, isComplexSrings, appendMode)
-    cellArrayToCSV(dataCell, selectedFile, ...
+    dmGEL.dmAUX.cellArrayToCSV(dataCell, selectedFile, ...
         dmGEL.Constants.PflsExportNumPrecisionORformat, false, true)
 catch ME
     msg = sprintf('Can not save Intensity Profiles to the file: \n%s\n%s', ...

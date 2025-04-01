@@ -22,15 +22,15 @@ btn_w = 70;
 btn_b = ckb_vDist; %20;
 btn_h = 30; %25
 
-% Calc vertical positions from top; will use hgposTop2Bottom(posVec, pph)
+% Calc vertical positions from top; will use dmGEL.dmAUX.hgposTop2Bottom(posVec, pph)
 btnGrp_t = ckb_vDist;%*2
 btnGrp_h = 2*ckb_h + ckb_vDist;
 svBGckb_t = btnGrp_t + btnGrp_h + ckb_vDist;
 btn_t = svBGckb_t + ckb_h + ckb_vDist;%*2
 f_h = btn_t + btn_h + btn_b;
 % btnGrp uibuttongroup's and saveBG checkbox'es positions: 
-btnGrp_pos = hgposTop2Bottom([ckb_l, btnGrp_t, ckb_w, btnGrp_h], f_h);
-svBGckb_pos = hgposTop2Bottom([ckb_l+20, svBGckb_t, ckb_w-20, ckb_h], f_h);
+btnGrp_pos = dmGEL.dmAUX.hgposTop2Bottom([ckb_l, btnGrp_t, ckb_w, btnGrp_h], f_h);
+svBGckb_pos = dmGEL.dmAUX.hgposTop2Bottom([ckb_l+20, svBGckb_t, ckb_w-20, ckb_h], f_h);
 
 % Radiobuttons' positions relative to btnGrp uibuttongroup:
 % * vertical
@@ -38,8 +38,8 @@ rb1_t = 0 +1;
 rb2_t = ckb_h + ckb_vDist -2;
 rb_l = 0;
 % * position vectors
-rb1_pos = hgposTop2Bottom([rb_l, rb1_t, ckb_w, ckb_h], btnGrp_h);
-rb2_pos = hgposTop2Bottom([rb_l, rb2_t, ckb_w, ckb_h], btnGrp_h);
+rb1_pos = dmGEL.dmAUX.hgposTop2Bottom([rb_l, rb1_t, ckb_w, ckb_h], btnGrp_h);
+rb2_pos = dmGEL.dmAUX.hgposTop2Bottom([rb_l, rb2_t, ckb_w, ckb_h], btnGrp_h);
 
 % |Apply| and |Cancel| position
 cancelBtn_l = f_w - btn_l - btn_w; % |Cancel| left
@@ -55,7 +55,7 @@ preserve_bg = false;
 hMainUI = obj.hFig;
 set(hMainUI, 'Units', 'pixels');
 mainUI_pos = get(hMainUI, 'Position');
-fPos = bestModalFigPos(f_w, f_h, mainUI_pos);
+fPos = dmGEL.dmAUX.bestModalFigPos(f_w, f_h, mainUI_pos);
 
 %% Construct the ui ------------------------------------------------------
 % Create the modal dialog window

@@ -289,8 +289,8 @@ classdef gelData < handle
             s.FiltFcn = func2str(obj.FiltFcn);
             s.BGcalcFcn = func2str(obj.BGcalcFcn);
             % Process functions's args:
-            s.FiltFcnArgs = dmCellArrayToString(obj.FiltFcnArgs);
-            s.BGcalcFcnArgs = dmCellArrayToString(obj.BGcalcFcnArgs);
+            s.FiltFcnArgs = dmGEL.dmAUX.cellArrayToString(obj.FiltFcnArgs);
+            s.BGcalcFcnArgs = dmGEL.dmAUX.cellArrayToString(obj.BGcalcFcnArgs);
             % Process the array of roiPolygon objecs:
             obj.fixHroiArr;
             if ~isempty(obj.HroiArr)

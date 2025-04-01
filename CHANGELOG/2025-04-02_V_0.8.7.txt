@@ -1,0 +1,50 @@
+2025-04-02 Version 0.8.7
+
+Move all functions in `dm_ui_sugar` folder to 'dmAUX' sub-package:
++dmGEL/+dmAUX/... (dmGEL.dmAUX.)
++  bestModalFigPos.m +
+    file:///home/marik/DOCKER_SHARE/MatLab/scripts/dmGEL/+dmGEL/@gelData/setBgCalcOptsUI.m    +
+    file:///home/marik/DOCKER_SHARE/MatLab/scripts/dmGEL/+dmGEL/@gelData/setNoiseFiltOptsUI.m +
+    file:///home/marik/DOCKER_SHARE/MatLab/scripts/dmGEL/+dmGEL/@gelui/clearSession.m         +
+    file:///home/marik/DOCKER_SHARE/MatLab/scripts/dmGEL/+dmGEL/@gelui/filterNoise.m          +
+
++  cellArrayToCSV.m %
+    file:///home/marik/DOCKER_SHARE/MatLab/scripts/dmGEL/+dmGEL/@improfPlotUI/exportProfiles.m +
+    
++ dmCellArrayToString.m --> cellArrayToString.m
+    file:///home/marik/DOCKER_SHARE/MatLab/scripts/dmGEL/+dmGEL/@gelData/setBgCalcOptsUI.m    +
+    file:///home/marik/DOCKER_SHARE/MatLab/scripts/dmGEL/+dmGEL/@gelData/setNoiseFiltOptsUI.m +
+    file:///home/marik/DOCKER_SHARE/MatLab/scripts/dmGEL/+dmGEL/@gelData/gelData.m            +
+
++  hgposTop2Bottom.m +
+    file:///home/marik/DOCKER_SHARE/MatLab/scripts/dmGEL/+dmGEL/@gelData/setBgCalcOptsUI.m    +
+    file:///home/marik/DOCKER_SHARE/MatLab/scripts/dmGEL/+dmGEL/@gelData/setNoiseFiltOptsUI.m +
+    file:///home/marik/DOCKER_SHARE/MatLab/scripts/dmGEL/+dmGEL/@gelui/clearSession.m         +
+    file:///home/marik/DOCKER_SHARE/MatLab/scripts/dmGEL/+dmGEL/@gelui/filterNoise.m          +
+
++  matrices2CSVreadyCell.m %
+    file:///home/marik/DOCKER_SHARE/MatLab/scripts/dmGEL/+dmGEL/@improfPlotUI/exportProfiles.m +
+
+Modified Classes:
+  +dmGEL/@gelData
+  +dmGEL/@gelui
+  +dmGEL/@improfPlotUI
+  
+Modified methods and files are listed above.
+
++dmGEL/+dmAUX/ now contains all `dm_ui_sugar` files.
+`dmCellArrayToString.m` is renamed to `cellArrayToString.m`
+----------------------------------------------------------------------------------------------------
+
+RENAMED:   dm_ui_sugar/bestModalFigPos.m -> +dmGEL/+dmAUX/bestModalFigPos.m
+RENAMED:   dm_ui_sugar/cellArrayToCSV.m -> +dmGEL/+dmAUX/cellArrayToCSV.m
+RENAMED:   dm_ui_sugar/dmCellArrayToString.m -> +dmGEL/+dmAUX/cellArrayToString.m
+RENAMED:   dm_ui_sugar/hgposTop2Bottom.m -> +dmGEL/+dmAUX/hgposTop2Bottom.m
+RENAMED:   dm_ui_sugar/matrices2CSVreadyCell.m -> +dmGEL/+dmAUX/matrices2CSVreadyCell.m
+
+MODIFIED:  +dmGEL/@gelData/gelData.m
+MODIFIED:  +dmGEL/@gelData/setBgCalcOptsUI.m
+MODIFIED:  +dmGEL/@gelData/setNoiseFiltOptsUI.m
+MODIFIED:  +dmGEL/@gelui/clearSession.m
+MODIFIED:  +dmGEL/@gelui/filterNoise.m
+MODIFIED:  +dmGEL/@improfPlotUI/exportProfiles.m

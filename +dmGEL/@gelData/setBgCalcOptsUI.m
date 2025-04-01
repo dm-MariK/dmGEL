@@ -91,37 +91,37 @@ btn_b = uictl_vDist;
 f_h = btn_t + btn_edt_h + btn_b; % FIGURE's height
 %          ---------------------------------------------
 %% *** POSITION VECTORS:
-useDfltRB_pos = hgposTop2Bottom([rb_l, useDfltRB_t, rb_w, rb_ckb_h], f_h); % 'Use default...' 'radiobutton'
-sMultHdrTxt_pos = hgposTop2Bottom(...
+useDfltRB_pos = dmGEL.dmAUX.hgposTop2Bottom([rb_l, useDfltRB_t, rb_w, rb_ckb_h], f_h); % 'Use default...' 'radiobutton'
+sMultHdrTxt_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [hdrTxt_l, sMultHdrTxt_t, hdrTxt_w, rb_ckb_h], f_h); % 'Set up multipliers:' 'text'
 % x/y-Mult-Txt/Edt
-xTxt_pos = hgposTop2Bottom(...
+xTxt_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [xMultTxt_l, xyTxt_t, xyMultTxt_w, rb_ckb_h], f_h);
-xEdt_pos = hgposTop2Bottom(...
+xEdt_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [xMultEdt_l, xyEdt_t, xyMultEdt_w, btn_edt_h], f_h);
-yTxt_pos = hgposTop2Bottom(...
+yTxt_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [yMultTxt_l, xyTxt_t, xyMultTxt_w, rb_ckb_h], f_h);
-yEdt_pos = hgposTop2Bottom(...
+yEdt_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [yMultEdt_l, xyEdt_t, xyMultEdt_w, btn_edt_h], f_h);
 %
-useSameCkb_pos = hgposTop2Bottom(...
+useSameCkb_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [ckbUse_l, useSameCkb_t, ckbUse_w, rb_ckb_h], f_h); % 'Use same xMult...' ckb
-useDfltCkb_pos = hgposTop2Bottom(...
+useDfltCkb_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [ckbUse_l, useDfltCkb_t, ckbUse_w, rb_ckb_h], f_h); % 'Use default...' ckb
-topDsptTxt_pos = hgposTop2Bottom(...
+topDsptTxt_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [hdrTxt_l, topDsptTxt_t, dsptTxt_w, topDsptTxt_h], f_h); % top (default fcn) 'text' description
 %             ----------------------------------------
-useCustomRB_pos = hgposTop2Bottom(...
+useCustomRB_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [rb_l, useCustomRB_t, rb_w, rb_ckb_h], f_h); % 'Use custom...' 'radiobutton'
-usrFcnTxt_pos = hgposTop2Bottom(...
+usrFcnTxt_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [hdrTxt_l, usrFcnTxt_t, hdrTxt_w, rb_ckb_h], f_h); % 'Specify your function:' 'text'
-usrFcnEdt_pos = hgposTop2Bottom(...
+usrFcnEdt_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [hdrTxt_l, usrFcnEdt_t, hdrTxt_w, btn_edt_h], f_h); % 'Specify your function:' 'edit'
-usrFcnArgsTxt_pos = hgposTop2Bottom(...
+usrFcnArgsTxt_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [hdrTxt_l, usrFcnArgsTxt_t, hdrTxt_w, rb_ckb_h], f_h); % '... additional arguments ...' 'text'
-usrFcnArgsEdt_pos = hgposTop2Bottom(...
+usrFcnArgsEdt_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [hdrTxt_l, usrFcnArgsEdt_t, hdrTxt_w, btn_edt_h], f_h); % '... additional arguments ...' 'edit'
-botDsptTxt_pos = hgposTop2Bottom(...
+botDsptTxt_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [hdrTxt_l, botDsptTxt_t, dsptTxt_w, botDsptTxt_h], f_h); % bottom (user's fcn) 'text' description
 % Apply and Cancel buttons
 applyBtn_pos = [applyBtn_l, btn_b, btn_w, btn_edt_h];
@@ -185,7 +185,7 @@ try
     hMainUI = obj.Hgelui.hFig;
     set(hMainUI, 'Units', 'pixels');
     mainUI_pos = get(hMainUI, 'Position');
-    fPos = bestModalFigPos(f_w, f_h, mainUI_pos);
+    fPos = dmGEL.dmAUX.bestModalFigPos(f_w, f_h, mainUI_pos);
 catch
     f_l = 500;
     f_b = 500;
@@ -374,7 +374,7 @@ if ~isequal(fcn, defaultFcn) % obj uses custom fcn
     if isempty(fcnArgs)
         set(usrFcnArgsEdt, 'String', '');
     else
-        fcnArgs_Str = dmCellArrayToString(fcnArgs);
+        fcnArgs_Str = dmGEL.dmAUX.cellArrayToString(fcnArgs);
         set(usrFcnArgsEdt, 'String', fcnArgs_Str);
     end
 
@@ -443,7 +443,7 @@ updUI;
             set(usrFcnEdt, 'BackgroundColor', [1 1 1]); % white BG for the usrFcn-Edit % <---------------------------- FIX COLORS !!!
             set(usrFcnTxt, 'ForegroundColor', [0 0 0]); % black font color for its Txt label
             % *
-            fcnArgsStr = dmCellArrayToString(fcnArgs);
+            fcnArgsStr = dmGEL.dmAUX.cellArrayToString(fcnArgs);
             set(usrFcnArgsEdt, 'String', fcnArgsStr);
             set(usrFcnArgsEdt, 'Enable', 'off'); 
             set(usrFcnArgsEdt, 'BackgroundColor', [1 1 1]); % white BG for the usrFcnArgs-Edit % <---------------------------- FIX COLORS !!!
@@ -489,7 +489,7 @@ updUI;
             % Set x/yEdits' and usrFcnArgsEdt's Strings
             set(xEdt, 'String', num2str(fcnArgs{1}));
             set(yEdt, 'String', num2str(fcnArgs{2}));
-            fcnArgsStr = dmCellArrayToString(fcnArgs);
+            fcnArgsStr = dmGEL.dmAUX.cellArrayToString(fcnArgs);
             set(usrFcnArgsEdt, 'String', fcnArgsStr);
 
             % Fix uicontrols' colors and re-enable Appy btn
@@ -525,7 +525,7 @@ updUI;
                 set(yEdt, 'BackgroundColor', [1 1 1]); % white BG for the yEdit 
                 set(yTxt, 'ForegroundColor', [0 0 0]); % black font color for the yTxt
             end
-            fcnArgsStr = dmCellArrayToString(fcnArgs);
+            fcnArgsStr = dmGEL.dmAUX.cellArrayToString(fcnArgs);
             set(usrFcnArgsEdt, 'String', fcnArgsStr);
 
         else % wrong value is passed
@@ -551,7 +551,7 @@ updUI;
                 set(xEdt, 'BackgroundColor', [1 1 1]); % white BG for the xEdit 
                 set(xTxt, 'ForegroundColor', [0 0 0]); % black font color for the xTxt
             end
-            fcnArgsStr = dmCellArrayToString(fcnArgs);
+            fcnArgsStr = dmGEL.dmAUX.cellArrayToString(fcnArgs);
             set(usrFcnArgsEdt, 'String', fcnArgsStr);
 
         else % wrong value is passed
@@ -575,7 +575,7 @@ updUI;
                 fcnArgs{2} = xVal;
                 set(yEdt, 'BackgroundColor', [1 1 1]); % white BG for the yEdit 
                 set(yTxt, 'ForegroundColor', [0 0 0]); % black font color for the yTxt
-                fcnArgsStr = dmCellArrayToString(fcnArgs);
+                fcnArgsStr = dmGEL.dmAUX.cellArrayToString(fcnArgs);
                 set(usrFcnArgsEdt, 'String', fcnArgsStr);
                 set(applyBtn, 'Enable', 'on'); % re-enable 'Apply' btn
                 return;
@@ -587,7 +587,7 @@ updUI;
                 fcnArgs{1} = yVal;
                 set(xEdt, 'BackgroundColor', [1 1 1]); % white BG for the yEdit 
                 set(xTxt, 'ForegroundColor', [0 0 0]); % black font color for the yTxt
-                fcnArgsStr = dmCellArrayToString(fcnArgs);
+                fcnArgsStr = dmGEL.dmAUX.cellArrayToString(fcnArgs);
                 set(usrFcnArgsEdt, 'String', fcnArgsStr);
                 set(applyBtn, 'Enable', 'on'); % re-enable 'Apply' btn
             end
@@ -624,7 +624,7 @@ updUI;
         % The String is non-empty
         try
             fcnArgs = eval(str);
-            fcnArgsStr = dmCellArrayToString(fcnArgs);
+            fcnArgsStr = dmGEL.dmAUX.cellArrayToString(fcnArgs);
             set(usrFcnArgsEdt, 'String', fcnArgsStr);
             %
             set(src, 'BackgroundColor', [1 1 1]); % white BG for the Edit 

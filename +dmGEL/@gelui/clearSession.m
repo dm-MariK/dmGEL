@@ -55,14 +55,14 @@ btn_t = allTxt_t + rb_ckb_h + uictl_vDist; % top of 'Continue' and 'Cancel' btns
 f_h = btn_t + btn_h + btn_b; % FIGURE's height
 %          ---------------------------------------------
 %% *** POSITION VECTORS:
-selectRB_pos = hgposTop2Bottom([rb_l, selectRB_t, rb_w, rb_ckb_h], f_h);   % 'Select what to Clear' 'radiobutton'
-gelCkb_pos = hgposTop2Bottom([ckb_l, gelCkb_t, ckb_w, rb_ckb_h], f_h);     % 'Gel Images' checkbox
-bandCkb_pos = hgposTop2Bottom([ckb_l, bandCkb_t, ckb_w, rb_ckb_h], f_h);   % 'Band Selections' checkbox
+selectRB_pos = dmGEL.dmAUX.hgposTop2Bottom([rb_l, selectRB_t, rb_w, rb_ckb_h], f_h);   % 'Select what to Clear' 'radiobutton'
+gelCkb_pos = dmGEL.dmAUX.hgposTop2Bottom([ckb_l, gelCkb_t, ckb_w, rb_ckb_h], f_h);     % 'Gel Images' checkbox
+bandCkb_pos = dmGEL.dmAUX.hgposTop2Bottom([ckb_l, bandCkb_t, ckb_w, rb_ckb_h], f_h);   % 'Band Selections' checkbox
 % BackGround Calculator and Noise Filter Settings will be preserved.:
-preservedTxt_pos = hgposTop2Bottom(...
+preservedTxt_pos = dmGEL.dmAUX.hgposTop2Bottom(...
     [txt_l, preservedTxt_t, txt_w, rb_ckb_h], f_h);
-allRB_pos = hgposTop2Bottom([rb_l, allRB_t, rb_w, rb_ckb_h], f_h); % 'Clear all' radiobutton
-allTxt_pos = hgposTop2Bottom([txt_l, allTxt_t, txt_w, rb_ckb_h], f_h);     % 'All ... vanished' text
+allRB_pos = dmGEL.dmAUX.hgposTop2Bottom([rb_l, allRB_t, rb_w, rb_ckb_h], f_h); % 'Clear all' radiobutton
+allTxt_pos = dmGEL.dmAUX.hgposTop2Bottom([txt_l, allTxt_t, txt_w, rb_ckb_h], f_h);     % 'All ... vanished' text
 ctnueBtn_pos = [ctnueBtn_l, btn_b, btn_w, btn_h];   % 'Continue' button
 cancelBtn_pos = [cancelBtn_l, btn_b, btn_w, btn_h]; % 'Cancel' button
 % ------------------------------------------------------------------------
@@ -75,7 +75,7 @@ cancelBtn_pos = [cancelBtn_l, btn_b, btn_w, btn_h]; % 'Cancel' button
 hMainUI = obj.hFig;
 set(hMainUI, 'Units', 'pixels');
 mainUI_pos = get(hMainUI, 'Position');
-fPos = bestModalFigPos(f_w, f_h, mainUI_pos);
+fPos = dmGEL.dmAUX.bestModalFigPos(f_w, f_h, mainUI_pos);
 
 %% Construct the ui ------------------------------------------------------
 % Create the modal dialog window

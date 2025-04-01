@@ -1,4 +1,4 @@
-function cellStr = dmCellArrayToString(cellArray)
+function cellStr = cellArrayToString(cellArray)
 %cellStr = dmCellArrayToString(cellArray)
 % < some info >
 
