@@ -38,8 +38,8 @@ classdef gelData < handle
         %   filtFcnArgs = {arg_1, arg_2, arg_3, arg_4}; % and so on...
         %   J = filtFcn(I, filtFcnArgs{:});
         % Note that additional arguments must be set as a cell array!
-        FiltFcn;
-        FiltFcnArgs;
+        FiltFcn = dmGEL.Constants.DefaultFiltFcn;
+        FiltFcnArgs = dmGEL.Constants.DefaultFiltFcnArgs;
 
         % BackGround calculator function and its additional arguments.
         % Call syntax is expected to be:
@@ -50,8 +50,8 @@ classdef gelData < handle
         % roi_pixel_pos is two-vector matrix of polygon vertices'
         % coordinates returned by roiPolygon.getPixelPosition().
         % Note that additional arguments must be set as a cell array!
-        BGcalcFcn;
-        BGcalcFcnArgs;
+        BGcalcFcn = dmGEL.Constants.DefaultBGcalcFcn;
+        BGcalcFcnArgs = dmGEL.Constants.DefaultBGcalcFcnArgs;
         % ---------------------------------------------------------------
 
         % Whether to collect acquired gel intensity data to a file
@@ -65,25 +65,7 @@ classdef gelData < handle
     end %properties
 
     properties (Constant)
-        %% Define defaults for BGcalcFcn, FiltFcn and their additional args
-        % as Static (Constant) class properties.
-        %
-        % Use median filtering (medfilt2 function) with square neighborhood
-        % for noise removing:
-        %   nbh = [10 10];
-        %   I_mf2 = medfilt2(I,nbh);
-        DefaultFiltFcn = @medfilt2;
-        DefaultFiltFcnArgs = {[10 10]};
         
-        %   BG = dmGEL.bgRectImopen(I, roi_pixel_pos, xMult, yMult)
-        % xMult and yMult are horizontal (along X-axis) and vertical (along
-        % Y-axis) multipliers, respectively. Scalars. Both are preset to 2. 
-        % FOR PERFECT BACKGROUND CALCULATION STREL (for morphologically
-        % image opening) MUST BE 2-TIMES BIGGER IN IT'S WIDTH AND 2-TIMES
-        % BIGGER IN IT'S HEIGHT THAN THE BIGGEST BAND ON THE GELL IMAGE !!!
-        DefaultBGcalcFcn = @dmGEL.bgRectImopen;
-        DefaultBGcalcFcnArgs = {2, 2};
-
         %% 'Signature' of saved object's data
         CLASS = 'dmGEL.gelData';
         DATA_VERSION = 1;
@@ -107,11 +89,6 @@ classdef gelData < handle
         %   if 'Hgelui' is not passed. 
         function obj = gelData(h_gelui)
             disp('gelDATA : Class Constructor is called');
-            obj.FiltFcn = dmGEL.gelData.DefaultFiltFcn;
-            obj.FiltFcnArgs = dmGEL.gelData.DefaultFiltFcnArgs;
-            obj.BGcalcFcn = dmGEL.gelData.DefaultBGcalcFcn;
-            obj.BGcalcFcnArgs = dmGEL.gelData.DefaultBGcalcFcnArgs;
-
             if nargin > 0
                 % ... if called by gelui
                 obj.Hgelui = h_gelui;
@@ -330,6 +307,7 @@ classdef gelData < handle
         % any of 'HroiArr' polygons.
         function delete(obj)
             disp('* gelDATA : Delete method');
+            disp(['  >> gelDATA with Session name; ', obj.SessionName, ' - is being deleted']);
         end
         % ----------------------------------------------------------------
     end %methods

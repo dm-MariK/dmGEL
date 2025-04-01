@@ -170,8 +170,8 @@ catch
     fPos = [f_l, f_b, f_w, f_h]; % the figure's position
 end
 
-defaultFcn = dmGEL.gelData.DefaultFiltFcn;
-defaultFcnArgs = dmGEL.gelData.DefaultFiltFcnArgs; % {[10 10]}; % {[Y X]};
+defaultFcn = dmGEL.Constants.DefaultFiltFcn;
+defaultFcnArgs = dmGEL.Constants.DefaultFiltFcnArgs; % {[10 10]}; % {[Y X]};
 fcn = obj.FiltFcn;
 fcnArgs = obj.FiltFcnArgs;
 

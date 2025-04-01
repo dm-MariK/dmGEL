@@ -1,0 +1,18 @@
+2025-04-01 Version 0.8.5
+
+Class dmGEL.gelData (and dmGEL.Constants):
+The following 'Constant' properties moved from dmGEL.gelData classdef to dmGEL.Constants
+* obj.FiltFcn = dmGEL.gelData.DefaultFiltFcn;            --> dmGEL.Constants.DefaultFiltFcn
+* obj.FiltFcnArgs = dmGEL.gelData.DefaultFiltFcnArgs;    --> dmGEL.Constants.DefaultFiltFcnArgs
+* obj.BGcalcFcn = dmGEL.gelData.DefaultBGcalcFcn;        --> dmGEL.Constants.DefaultBGcalcFcn
+* obj.BGcalcFcnArgs = dmGEL.gelData.DefaultBGcalcFcnArgs;--> dmGEL.Constants.DefaultBGcalcFcnArgs
+
+Modified the dmGEL.gelData methods:
+* setNoiseFiltOptsUI()
+* setBgCalcOptsUI()
+
+Files Modified:
+  +dmGEL/@gelData/gelData.m
+  +dmGEL/@gelData/setBgCalcOptsUI.m
+  +dmGEL/@gelData/setNoiseFiltOptsUI.m
+  +dmGEL/Constants.m

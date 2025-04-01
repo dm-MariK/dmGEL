@@ -98,5 +98,25 @@ classdef Constants
         % Color of a roiObj when the obj isSelected 
         % (orange by default: hsv2rgb([1/12, 0.9, 1]);)
         SelectedPolygonColor = hsv2rgb([1/12, 0.9, 1]);
+
+        %% gelData specific Constants ------------------------------------
+        % Define defaults for BGcalcFcn, FiltFcn and their additional args
+        %                   ---------------------------
+        % Use median filtering (medfilt2 function) with square neighborhood
+        % for noise removing:
+        %   nbh = [10 10];
+        %   I_mf2 = medfilt2(I,nbh);
+        DefaultFiltFcn = @medfilt2;
+        DefaultFiltFcnArgs = {[10 10]};
+        
+        %   BG = dmGEL.bgRectImopen(I, roi_pixel_pos, xMult, yMult)
+        % xMult and yMult are horizontal (along X-axis) and vertical (along
+        % Y-axis) multipliers, respectively. Scalars. Both are preset to 2. 
+        % FOR PERFECT BACKGROUND CALCULATION STREL (for morphologically
+        % image opening) MUST BE 2-TIMES BIGGER IN IT'S WIDTH AND 2-TIMES
+        % BIGGER IN IT'S HEIGHT THAN THE BIGGEST BAND ON THE GELL IMAGE !!!
+        DefaultBGcalcFcn = @dmGEL.bgRectImopen;
+        DefaultBGcalcFcnArgs = {2, 2};
+
     end
 end

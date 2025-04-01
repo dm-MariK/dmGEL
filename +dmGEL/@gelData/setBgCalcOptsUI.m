@@ -192,8 +192,8 @@ catch
     fPos = [f_l, f_b, f_w, f_h]; % the figure's position
 end
 
-defaultFcn = dmGEL.gelData.DefaultBGcalcFcn;
-defaultFcnArgs = dmGEL.gelData.DefaultBGcalcFcnArgs; % {xMult, yMult}
+defaultFcn = dmGEL.Constants.DefaultBGcalcFcn;
+defaultFcnArgs = dmGEL.Constants.DefaultBGcalcFcnArgs; % {xMult, yMult}
 fcn = obj.BGcalcFcn;
 fcnArgs = obj.BGcalcFcnArgs;
 
