@@ -1,0 +1,13 @@
+2025-04-01 Version 0.8.6
+
+Class dmGEL.gelui (and dmGEL.Constants):
+toggleBotPan() method of gelui Class: make it blink, not change uicontrols' colors for a while.
+New dmGEL.Constants properties:
+* GU_BotPanShowPathBlinkFGcolor
+* GU_BotPanShowPathBlinkBGcolor
+* GU_BotPanShowPathBlinkFontWeight
+* GU_BotPanShowPathBlinkTime
+
+Files Modified:
+  +dmGEL/@gelui/toggleBotPan.m
+  +dmGEL/Constants.m

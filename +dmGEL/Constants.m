@@ -47,6 +47,14 @@ classdef Constants
         %BtnHeight = 25;
         %EdtHeight = 23;
         %TopDist = 30; % Top distance of the 1-st uiControl (from Top)
+        % ----------------------------------------------------------------
+
+        % Blink parameters for toggleBotPan() method when switching to
+        % 'showPath' mode.
+        GU_BotPanShowPathBlinkFGcolor = [1 0 0];
+        GU_BotPanShowPathBlinkBGcolor = hsv2rgb([0.35, 0.7, 0.7020]);
+        GU_BotPanShowPathBlinkFontWeight = 'bold';
+        GU_BotPanShowPathBlinkTime = 0.5; % in seconds
 
         %% improfPlotUI specific Constants -------------------------------
         % The initial Figure's Position:
