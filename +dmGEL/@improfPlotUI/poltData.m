@@ -8,6 +8,9 @@ function poltData(obj)
 % hPlot_6 - array of Line objects on hAxes_6 (for PflsVertRight)
 %              ----------------------------------------
 
+% Set the Figure Name
+set(obj.hFig, 'Name', obj.FigName);
+
 % Add gel image to the Axes 1
 show_image(obj.hAxes_1, obj.BGCorrectedImg);
 

@@ -1,0 +1,19 @@
+2025-04-02 Version 0.8.9
+
+Added original image file name to 'dmGEL.improfPlotUI' Figure's header (Figure 'Name').
+
+dmGEL.improfPlotUI Class:
+  New property: FigName
+  New method: genFigName
+  Modified methods:
+    updateData()
+    poltData() <------------- REQUIRED RENAMING!
+
+dmGEL.Constants Class:
+  ImprofPlotInitFigName
+
+Files:
+CREATED:    +dmGEL/@improfPlotUI/genFigName.m
+MODIFIED:   +dmGEL/@improfPlotUI/improfPlotUI.m
+MODIFIED:   +dmGEL/@improfPlotUI/poltData.m
+MODIFIED:   +dmGEL/Constants.m

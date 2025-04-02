@@ -57,6 +57,8 @@ classdef Constants
         GU_BotPanShowPathBlinkTime = 0.5; % in seconds
 
         %% improfPlotUI specific Constants -------------------------------
+        % The initial Figure's Name:
+        ImprofPlotInitFigName = 'Selection Details: Image Intensity Profiles';
         % The initial Figure's Position:
         ImprofPlotInitFigPosition = [24, 40, 1880, 880];
         % ----------------------------------------------------------------

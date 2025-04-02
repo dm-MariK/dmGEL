@@ -9,7 +9,8 @@ classdef  improfPlotUI < matlab.mixin.SetGet
     properties (Constant)
         CLASS = 'dmGEL.improfPlotUI';
         DATA_VERSION = 1;
-        PROPS2SAVE ={'BGCorrectedImg', ...
+        PROPS2SAVE ={'FigName', ...
+            'BGCorrectedImg', ...
             'SelectionImg', ...
             'PflsHorizontal', ...
             'PflsVertCentral', ...
@@ -23,6 +24,7 @@ classdef  improfPlotUI < matlab.mixin.SetGet
 
     properties
         %% To keep calculated data
+        FigName = dmGEL.Constants.ImprofPlotInitFigName; % the Figure's Name 
         BGCorrectedImg;  % copy of BGCorrectedImg from the GelDataObj
         SelectionImg;    % to keep prepared Img displaying the selection on the gel
         PflsHorizontal;  % horizontal improfiles through the selection center
@@ -182,7 +184,7 @@ classdef  improfPlotUI < matlab.mixin.SetGet
             %% Make the UI
             % Figure itself
             fPos = dmGEL.Constants.ImprofPlotInitFigPosition;
-            fName ='Selection Details: Image Intensity Profiles';
+            fName = dmGEL.Constants.ImprofPlotInitFigName;
             obj.hFig = figure(...
                 'Units', 'pixels', ...
                 'Position', fPos, ...
@@ -282,6 +284,7 @@ classdef  improfPlotUI < matlab.mixin.SetGet
             % Make required calculations; update vals of the corresponding properties.
             obj.prepImgs(GelDataObj, selectionMask);
             obj.calcPfls(GelDataObj, selectionMask);
+            obj.genFigName(GelDataObj);
             % Update Charts 
             obj.poltData;
         end
