@@ -67,10 +67,10 @@ classdef Constants
         % Subplots' padding: Relative to Tile's dimentions but NOT as fractions of them.
         GelAxesPad = 0.005; % all - left, right, top, bottom
         PlotAxesRight = 0.01;
-        PlotAxesTop = 0.015;
+        PlotAxesTop = 0.025;
         %  --- additional space for X- and Y-axis labels ---
-        PlotAxesLshift = 0.01; % Left shift
-        PlotAxesVshift = 0.01; % Vertical shift
+        PlotAxesLshift = 0.015; % Left shift
+        PlotAxesVshift = 0.03; % Vertical shift
         % ----------------------------------------------------------------
 
         % To representat a band-area Selection:

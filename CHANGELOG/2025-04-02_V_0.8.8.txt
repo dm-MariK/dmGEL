@@ -1,0 +1,12 @@
+2025-04-02 Version 0.8.8
+
+1) gelui Class: add uimenus' Alt+<...> Mnemonics
+Specified a mnemonic keyboard shortcut (Alt+mnemonic) by using the ampersand (&) character.
+
+2) Adjust sizing of UIs. 
+Plot axes of 'improfPlotUI' only!
+
+Files modified:
+  +dmGEL/@gelui/gelui.m
+  +dmGEL/Constants.m
+  
