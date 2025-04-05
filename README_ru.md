@@ -55,7 +55,7 @@ function startup
 and then append the above content depending on your OS.
 
 __NOTE:__ typical `startup.m` file location:
-  * on MS Windows: `C:\Users\YourUserName\Documents\MATLAB\startup.m`
+  * on MS Windows: `C:\Users\<YOURUSERNAME>\Documents\MATLAB\startup.m`
   * on GNU/Linux:  `/home/<YOURUSERNAME>/startup.m`
   
 3.  Restart the MATLAB environment by closing its main window or typing `exit` on its command prompt.

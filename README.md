@@ -27,7 +27,7 @@ This software is a set of MATLAB scripts. It requires the MATLAB environment and
 
 All development and testing was done in MATLAB __R2022b__, and this is the version I recommend to use.
 
-I tried to make the code as backward compatible as possible, at least up to MATLAB __R2016b__. However, I didn't have a chance to test it.
+I tried to make the code as backward compatible as possible, at least ~~up~~ down to MATLAB __R2016b__. However, I didn't have a chance to test it.
 
 As for versions _newer_ than __R2022b__, problems may arise due to the fact that one of the classes in this project (`dmGEL.roiPolygon`) inherits a class from the _undocumented_ part of the Image Processing Toolbox code base (`impoly` class), the logic of which can be changed by MATLAB developers without warning. However, the actual code of the `impoly` class has not been changed since 2018 (as of release __R2022b__).
 
@@ -60,7 +60,7 @@ function startup
 and then append the above content depending on your OS.
 
 __NOTE:__ typical `startup.m` file location:
-  * on MS Windows: `C:\Users\YourUserName\Documents\MATLAB\startup.m`
+  * on MS Windows: `C:\Users\<YOURUSERNAME>\Documents\MATLAB\startup.m`
   * on GNU/Linux:  `/home/<YOURUSERNAME>/startup.m`
   
 3.  Restart the MATLAB environment by closing its main window or typing `exit` on its command prompt.
@@ -88,10 +88,10 @@ The process of digitizing electrophoretic gels includes the following steps.
 
 1.  Use ONLY gel scans obtained with a regular flatbed scanner without automatic post-processing. Or use a specialized gel documentation system.
 __Do not use__ gel images obtained with smartphone cameras and similar devices. These cameras use AI elements to "improve" the resulting image. Faded areas are made brighter, and too bright areas are made more faded. All these are non-linear transformations, which are also essentially unpredictable: they depend on the model and manufacturer of the smartphone and its firmware version, and are also a trade secret.
-2.  To plot the calibration regression graph, _always_ use __the same__ gel on which you separate the proteins whose amount you need to know. Since in practice it is impossible to perfectly control the degree of washing of the gel from excess staining dye, the slope of the regression graph may differ for two different gels. Which will lead to a significant error in the region of high protein amounts if you use a separate gel to construct the calibration graph.
+2.  To plot the calibration regression graph, _always_ use __the same__ gel on which you separate the proteins whose amount you need to know. Since in practice it is impossible to perfectly control the degree of washing of the gel from an excess of staining dye, the slope of the regression graph may differ for two different gels. Which will lead to a significant error in the region of high protein amounts if you use a separate gel to construct the calibration graph.
 3.  Use at least 5 points with known amounts of protein (not including zero) to construct the regression plot.
 4.  Since the staining efficiency of a protein in a gel depends on its nature, e.g., amino acid composition, molecular weight, presence of prosthetic groups, the reference protein used for gel calibration and the protein under study must be identical. Otherwise, the difference between the true and the obtained amount may differ by several times.
-5.  If possible, thoroughly wash the gel from excess of staining dye. No algorithm will "digest" poorly washed gels. Shit in - shit out!
+5.  If possible, thoroughly wash the gel from an excess of staining dye. No algorithm will "digest" poorly washed gels. Shit in - shit out!
 
 ## Detailed textual instruction ##
 Coming soon!
@@ -102,6 +102,7 @@ Coming soon!
 # COPYRIGHT #
 
 This software project is Copyright (c) 2025 by Denis I. Markov aka MariK
+
 < dm DOT marik DOT 230185 AT gmail DOT com >
 < t DOT me / dm_MariK >
 
