@@ -54,7 +54,7 @@ __NOTE:__ If you are familiar with git, use `git clone` to download the project'
 __NOTE:__ _Use here the paths from step (1)!_
   
 If you do not have `startup.m` file, just create it with the content:
-```
+```matlab
 function startup
 ```
 and then append the above content depending on your OS.
@@ -66,7 +66,7 @@ __NOTE:__ typical `startup.m` file location:
 3.  Restart the MATLAB environment by closing its main window or typing `exit` on its command prompt.
 
 4.  To start the software toll just print on the MATLAB command prompt (CaSe SENsiTIve !!!):
-```
+```matlab
 dmGELQUANTtool
 ```
 and press enter.
@@ -94,14 +94,22 @@ The process of digitizing electrophoretic gels includes the following steps.
 6.  Now we have an image of the gel with the background subtracted. To obtain the integral intensity value, simply select the protein band of interest and call "Get Intensity" from the context menu of the selection area.
 
 ## Video manual ##
-Coming soon!
+
+1.  [Start the app, import an image, filter noise and subtract background.](https://youtu.be/qlfJDAY_WXg)
+2.  [Select bands. Work with selections and scale.](https://youtu.be/NO0OGnvodNM)
+3.  [Acquire intensity values for bands. Image Intensity Profiles charts.](https://youtu.be/BJMrR1VZjQQ)
+4.  [Automatic collection of intensity values to a file.](https://youtu.be/jEtwZPVGz4o)
+5.  [Review of all main menus of the program's main window.](https://youtu.be/fuhIV-UJruU)
+
+[All the videos in one playlist](https://www.youtube.com/playlist?list=PLCxqIo67mH3mG5xgmzamDVwWHOF4hnceS)
+
 
 ## Detailed textual instruction ##
 
 ### Starting the program, importing an image ###
 
 To start the software, print on the MATLAB command prompt (CaSe SENsiTIve !!!): 
-```
+```matlab
 dmGELQUANTtool
 ``` 
 and then press enter.
